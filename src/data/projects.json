@@ -1,0 +1,31 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Analytics Dashboard",
+      "description": "Real-time data visualization dashboard with interactive charts and metrics for business intelligence.",
+      "image": "project-1.jpg",
+      "tech": ["React", "TypeScript", "Python", "PostgreSQL"],
+      "github": "https://github.com",
+      "demo": "https://demo.com"
+    },
+    {
+      "id": 2,
+      "title": "E-Commerce Platform",
+      "description": "Full-featured online shopping platform with cart, payments, and inventory management.",
+      "image": "project-2.jpg",
+      "tech": ["React", "Node.js", "Stripe", "MongoDB"],
+      "github": "https://github.com",
+      "demo": "https://demo.com"
+    },
+    {
+      "id": 3,
+      "title": "AI Chat Assistant",
+      "description": "Intelligent chatbot powered by machine learning for automated customer support and engagement.",
+      "image": "project-3.jpg",
+      "tech": ["Python", "TensorFlow", "React", "FastAPI"],
+      "github": "https://github.com",
+      "demo": "https://demo.com"
+    }
+  ]
+}
