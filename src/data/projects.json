@@ -7,7 +7,8 @@
       "image": "project-1.jpg",
       "tech": ["React", "TypeScript", "Python", "PostgreSQL"],
       "github": "https://github.com",
-      "demo": "https://demo.com"
+      "demo": "https://demo.com",
+      "featured": true
     },
     {
       "id": 2,
@@ -16,7 +17,8 @@
       "image": "project-2.jpg",
       "tech": ["React", "Node.js", "Stripe", "MongoDB"],
       "github": "https://github.com",
-      "demo": "https://demo.com"
+      "demo": "https://demo.com",
+      "featured": true
     },
     {
       "id": 3,
@@ -25,7 +27,8 @@
       "image": "project-3.jpg",
       "tech": ["Python", "TensorFlow", "React", "FastAPI"],
       "github": "https://github.com",
-      "demo": "https://demo.com"
+      "demo": "https://demo.com",
+      "featured": false
     }
   ]
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Home, Briefcase, Code, Mail, Sun, Moon } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Home, Briefcase, Code, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -8,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { SettingsDialog } from "@/components/SettingsDialog";
 
 const navItems = [
   { title: "Home", id: "home", icon: Home },
@@ -18,7 +18,6 @@ const navItems = [
 
 export function VerticalNav() {
   const [activeSection, setActiveSection] = useState("home");
-  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,25 +86,16 @@ export function VerticalNav() {
           );
         })}
         
-        {/* Theme Toggle */}
+        {/* Settings */}
         <div className="mt-4 pt-4 border-t border-border/50">
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="h-12 w-12 rounded-xl transition-all duration-300 hover:bg-primary/10 group"
-              >
-                {theme === "dark" ? (
-                  <Sun className="h-5 w-5 transition-transform group-hover:rotate-180 duration-500" strokeWidth={2} />
-                ) : (
-                  <Moon className="h-5 w-5 transition-transform group-hover:-rotate-45 duration-500" strokeWidth={2} />
-                )}
-              </Button>
+              <div>
+                <SettingsDialog variant="icon" />
+              </div>
             </TooltipTrigger>
             <TooltipContent side="right" className="font-medium">
-              {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              Settings
             </TooltipContent>
           </Tooltip>
         </div>

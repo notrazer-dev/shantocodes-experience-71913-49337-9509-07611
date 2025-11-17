@@ -8,6 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { SettingsDialog } from "@/components/SettingsDialog";
 
 const navItems = [
   { title: "Home", id: "home", icon: Home },
@@ -91,6 +92,10 @@ export function MobileNav() {
               );
             })}
           </nav>
+          
+          <div className="mt-6 pt-6 border-t border-border/50">
+            <SettingsDialog variant="text" />
+          </div>
         </SheetContent>
       </Sheet>
     </div>
