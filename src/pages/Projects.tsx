@@ -1,49 +1,55 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { ExternalLink, Github, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import projectsData from "@/data/projects.json";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { VerticalNav } from "@/components/VerticalNav";
+import { BottomNav } from "@/components/BottomNav";
+import Footer from "@/components/Footer";
 
 const Projects = () => {
   const getProjectImage = (imageName: string) => {
     return new URL(`../assets/${imageName}`, import.meta.url).href;
   };
 
-  const featuredProjects = projectsData.projects
-    .filter(project => project.featured)
-    .map(project => ({
-      ...project,
-      image: getProjectImage(project.image)
-    }));
+  const allProjects = projectsData.projects.map(project => ({
+    ...project,
+    image: getProjectImage(project.image)
+  }));
 
   return (
-    <section id="projects" className="py-20 px-4 bg-muted/20">
-      <div className="container mx-auto max-w-6xl">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-          Featured Projects
-        </h2>
-        <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          A showcase of my recent work, from web applications to AI-powered solutions
-        </p>
-        
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-4">
-            {featuredProjects.map((project, index) => (
-              <CarouselItem key={project.title} className="pl-4 md:basis-1/2 lg:basis-1/3">
+    <div className="min-h-screen w-full overflow-x-hidden">
+      {/* Desktop navigation - hidden on mobile/tablet */}
+      <div className="hidden xl:block">
+        <VerticalNav />
+      </div>
+
+      {/* Mobile/Tablet navigation - bottom bar */}
+      <div className="xl:hidden">
+        <BottomNav />
+      </div>
+
+      <main className="flex-1 bg-background">
+        <section className="py-20 px-4">
+          <div className="container mx-auto max-w-6xl">
+            <Link to="/">
+              <Button variant="ghost" className="mb-8">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+            
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+              All Projects
+            </h1>
+            <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+              A complete collection of my work, from web applications to AI-powered solutions
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allProjects.map((project, index) => (
                 <Card 
+                  key={project.id}
                   className="glass-card border-border/50 overflow-hidden group hover:shadow-2xl transition-all duration-300 animate-fade-in h-full"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
@@ -54,6 +60,11 @@ const Projects = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
+                    {project.featured && (
+                      <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-medium">
+                        Featured
+                      </div>
+                    )}
                   </div>
                   
                   <CardHeader>
@@ -101,26 +112,13 @@ const Projects = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          
-          <div className="flex justify-center gap-4 mt-8">
-            <CarouselPrevious className="static translate-y-0" />
-            <CarouselNext className="static translate-y-0" />
+              ))}
+            </div>
           </div>
-        </Carousel>
-
-        <div className="flex justify-center mt-8">
-          <Button variant="outline" size="lg" className="group" asChild>
-            <Link to="/projects">
-              View All Projects
-              <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </Button>
-        </div>
-      </div>
-    </section>
+        </section>
+        <Footer />
+      </main>
+    </div>
   );
 };
 

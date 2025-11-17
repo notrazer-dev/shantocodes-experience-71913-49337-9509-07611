@@ -18,6 +18,7 @@ const navItems = [
 
 export function VerticalNav() {
   const [activeSection, setActiveSection] = useState("home");
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,10 +89,14 @@ export function VerticalNav() {
         
         {/* Settings */}
         <div className="mt-4 pt-4 border-t border-border/50">
-          <Tooltip delayDuration={0}>
+          <Tooltip delayDuration={0} open={settingsOpen ? false : undefined}>
             <TooltipTrigger asChild>
               <div>
-                <SettingsDialog variant="icon" />
+                <SettingsDialog 
+                  variant="icon" 
+                  open={settingsOpen}
+                  onOpenChange={setSettingsOpen}
+                />
               </div>
             </TooltipTrigger>
             <TooltipContent side="right" className="font-medium">

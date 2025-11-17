@@ -21,6 +21,7 @@ const navItems = [
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,7 +95,11 @@ export function MobileNav() {
           </nav>
           
           <div className="mt-6 pt-6 border-t border-border/50">
-            <SettingsDialog variant="text" />
+            <SettingsDialog 
+              variant="text"
+              open={settingsOpen}
+              onOpenChange={setSettingsOpen}
+            />
           </div>
         </SheetContent>
       </Sheet>
