@@ -21,14 +21,16 @@ const colorOptions: { name: string; value: ThemeColor; color: string }[] = [
 
 interface SettingsDialogProps {
   variant?: "icon" | "text";
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export function SettingsDialog({ variant = "icon" }: SettingsDialogProps) {
+export function SettingsDialog({ variant = "icon", open, onOpenChange }: SettingsDialogProps) {
   const { theme, setTheme } = useTheme();
   const { themeColor, setThemeColor } = useThemeColor();
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         {variant === "icon" ? (
           <Button
