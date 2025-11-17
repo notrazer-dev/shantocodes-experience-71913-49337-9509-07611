@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, ChevronDown } from "lucide-react";
-import heroBackground from "@/assets/hero-background.jpg";
+// import heroBackground from "@/assets/hero-background.jpg";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -12,7 +12,7 @@ const Hero = () => {
       id="home" 
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{
-        backgroundImage: `url(${heroBackground})`,
+        // backgroundImage: `url(${heroBackground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
