@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Home, Briefcase, Code, Mail } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -17,8 +18,11 @@ const navItems = [
 ];
 
 export function VerticalNav() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("home");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,13 +50,19 @@ export function VerticalNav() {
   }, []);
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (id === "home" && !isHomePage) {
+      navigate("/");
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
+
+  const displayNavItems = isHomePage ? navItems : [{ title: "Home", id: "home", icon: Home }];
 
   return (
     <TooltipProvider>
       <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-2 bg-card/75 backdrop-blur-lg border border-border/40 py-4 px-2 rounded-2xl shadow-[0_8px_32px_hsl(0_0%_0%_/_0.15)]">
-        {navItems.map((item) => {
+        {displayNavItems.map((item) => {
           const isActive = activeSection === item.id;
           return (
             <Tooltip key={item.id} delayDuration={0}>
