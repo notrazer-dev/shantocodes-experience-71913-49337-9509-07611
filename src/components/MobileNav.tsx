@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Home, User, Briefcase, Code, Mail } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -19,9 +20,12 @@ const navItems = [
 ];
 
 export function MobileNav() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,9 +53,15 @@ export function MobileNav() {
   }, []);
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (id === "home" && !isHomePage) {
+      navigate("/");
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
     setOpen(false);
   };
+
+  const displayNavItems = isHomePage ? navItems : [{ title: "Home", id: "home", icon: Home }];
 
   return (
     <div className="md:hidden fixed top-4 left-4 z-50">
@@ -70,7 +80,7 @@ export function MobileNav() {
             <SheetTitle className="text-primary">Navigation</SheetTitle>
           </SheetHeader>
           <nav className="mt-8 space-y-2">
-            {navItems.map((item) => {
+            {displayNavItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
                 <button
