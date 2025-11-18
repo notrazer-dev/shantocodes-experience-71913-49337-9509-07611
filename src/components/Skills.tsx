@@ -40,7 +40,7 @@ const Skills = () => {
                       style={{ animationDelay: `${index * 0.05}s` }}
                     >
                       <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300">
-                        {IconComponent && <IconComponent className="text-primary" size={24} />}
+                        {IconComponent && <IconComponent size={24} />}
                       </div>
                       <span className="text-xs text-center font-medium text-foreground line-clamp-2">
                         {skill.name}
@@ -66,7 +66,7 @@ const Skills = () => {
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300">
-                  {IconComponent && <IconComponent className="text-primary" size={28} />}
+                  {IconComponent && <IconComponent size={28} />}
                 </div>
                 <span className="text-xs text-center font-medium text-foreground">
                   {skill.name}
