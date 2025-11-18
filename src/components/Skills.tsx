@@ -1,5 +1,4 @@
 import skillsData from "@/data/skills.json";
-import * as SimpleIcons from "react-icons/si";
 import {
   Carousel,
   CarouselContent,
@@ -32,15 +31,14 @@ const Skills = () => {
           >
             <CarouselContent className="-ml-2">
               {skills.map((skill, index) => {
-                const IconComponent = (SimpleIcons as any)[skill.icon] as React.ComponentType<{ className?: string; size?: number }>;
                 return (
                   <CarouselItem key={skill.name} className="pl-2 basis-1/3">
                     <div
                       className="flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 animate-fade-in"
                       style={{ animationDelay: `${index * 0.05}s` }}
                     >
-                      <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300">
-                        {IconComponent && <IconComponent size={24} />}
+                      <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-2">
+                        <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
                       </div>
                       <span className="text-xs text-center font-medium text-foreground line-clamp-2">
                         {skill.name}
@@ -58,15 +56,14 @@ const Skills = () => {
         {/* Desktop: Full grid */}
         <div className="hidden md:grid grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-8">
           {skills.map((skill, index) => {
-            const IconComponent = (SimpleIcons as any)[skill.icon] as React.ComponentType<{ className?: string; size?: number }>;
             return (
               <div
                 key={skill.name}
                 className="flex flex-col items-center justify-center gap-3 hover:scale-110 transition-all duration-300 animate-fade-in"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300">
-                  {IconComponent && <IconComponent size={28} />}
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-3">
+                  <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
                 </div>
                 <span className="text-xs text-center font-medium text-foreground">
                   {skill.name}
