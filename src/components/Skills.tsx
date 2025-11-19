@@ -1,11 +1,4 @@
 import skillsData from "@/data/skills.json";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 const Skills = () => {
   const skills = skillsData.skills;
@@ -20,37 +13,24 @@ const Skills = () => {
           A comprehensive toolkit for building modern, scalable applications
         </p>
         
-        {/* Mobile: Touch-enabled carousel */}
-        <div className="md:hidden">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-2">
-              {skills.map((skill, index) => {
-                return (
-                  <CarouselItem key={skill.name} className="pl-2 basis-1/3">
-                    <div
-                      className="flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 animate-fade-in"
-                      style={{ animationDelay: `${index * 0.05}s` }}
-                    >
-                      <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-2">
-                        <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
-                      </div>
-                      <span className="text-xs text-center font-medium text-foreground line-clamp-2">
-                        {skill.name}
-                      </span>
-                    </div>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <CarouselPrevious className="left-0" />
-            <CarouselNext className="right-0" />
-          </Carousel>
+        {/* Mobile: 3-column grid */}
+        <div className="md:hidden grid grid-cols-3 gap-4">
+          {skills.map((skill, index) => {
+            return (
+              <div
+                key={skill.name}
+                className="flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 animate-fade-in"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-2">
+                  <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
+                </div>
+                <span className="text-xs text-center font-medium text-foreground line-clamp-2">
+                  {skill.name}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
         {/* Desktop: Full grid */}
