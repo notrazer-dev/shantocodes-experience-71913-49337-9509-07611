@@ -57,7 +57,9 @@ const Contact = () => {
           Have a project in mind or want to collaborate? Feel free to reach out!
         </p>
         
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center md:justify-items-stretch max-w-full md:max-w-none">
+        <div 
+          className={`grid ${import.meta.env.VITE_EMAIL_FORM === 'true' ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-8 md:gap-12 justify-items-center md:justify-items-stretch max-w-full md:max-w-none`}
+        >
           {import.meta.env.VITE_EMAIL_FORM === 'true' && (
             <div className="glass-card rounded-2xl p-6 md:p-8 w-full max-w-lg md:max-w-none">
               <form ref={form} onSubmit={handleSubmit} className="space-y-6">
@@ -116,39 +118,43 @@ const Contact = () => {
             </div>
           )}
           
-          {/* Contact Info */}
-          <div className="space-y-6 md:space-y-8 w-full max-w-lg md:max-w-none">
-            <div className="glass-card rounded-2xl p-8">
-              <h3 className="text-xl font-semibold mb-6">Connect With Me</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-x-2">
+          <div 
+            className={`w-full max-w-lg md:max-w-none ${import.meta.env.VITE_EMAIL_FORM === 'false' ? 'col-span-1 grid md:grid-cols-2 gap-8' : 'space-y-6 md:space-y-8'}`}
+          >
+            {/* Contact Info */}
+            <div className="space-y-6 md:space-y-8">
+              <div className="glass-card rounded-2xl p-8">
+                <h3 className="text-xl font-semibold mb-6">Connect With Me</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-x-2">
+                    <a 
+                      href="mailto:shantojoseph23@gmail.com"
+                      className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      <Mail className="w-5 h-5" />
+                      <span>shantojoseph23@gmail.com</span>
+                    </a>
+                    <Copy className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary" onClick={handleCopy} />
+                  </div>
                   <a 
-                    href="mailto:shantojoseph23@gmail.com"
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                   >
-                    <Mail className="w-5 h-5" />
-                    <span>shantojoseph23@gmail.com</span>
+                    <Github className="w-5 h-5" />
+                    <span>github.com/shantojoseph</span>
                   </a>
-                  <Copy className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary" onClick={handleCopy} />
+                  <a 
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <Linkedin className="w-5 h-5" />
+                    <span>linkedin.com/in/shantojoseph</span>
+                  </a>
                 </div>
-                <a 
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Github className="w-5 h-5" />
-                  <span>github.com/shantojoseph</span>
-                </a>
-                <a 
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Linkedin className="w-5 h-5" />
-                  <span>linkedin.com/in/shantojoseph</span>
-                </a>
               </div>
             </div>
             
