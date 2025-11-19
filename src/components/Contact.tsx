@@ -58,62 +58,63 @@ const Contact = () => {
         </p>
         
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center md:justify-items-stretch max-w-full md:max-w-none">
-          {/* Contact Form */}
-          <div className="glass-card rounded-2xl p-6 md:p-8 w-full max-w-lg md:max-w-none">
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Name
-                </label>
-                <Input
-                  id="name"
-                  type="text"
-                  name="user_name"
-                  placeholder="Your name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                  className="bg-background/50"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
-                </label>
-                <Input
-                  id="email"
-                  type="email"
-                  name="user_email"
-                  placeholder="your.email@example.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                  className="bg-background/50"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message
-                </label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  placeholder="Tell me about your project..."
-                  rows={5}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  required
-                  className="bg-background/50 resize-none"
-                />
-              </div>
-              
-              <Button type="submit" className="w-full" size="lg">
-                Send Message
-              </Button>
-            </form>
-          </div>
+          {import.meta.env.VITE_EMAIL_FORM === 'true' && (
+            <div className="glass-card rounded-2xl p-6 md:p-8 w-full max-w-lg md:max-w-none">
+              <form ref={form} onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    Name
+                  </label>
+                  <Input
+                    id="name"
+                    type="text"
+                    name="user_name"
+                    placeholder="Your name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                    className="bg-background/50"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    Email
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    name="user_email"
+                    placeholder="your.email@example.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                    className="bg-background/50"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                    Message
+                  </label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    placeholder="Tell me about your project..."
+                    rows={5}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                    className="bg-background/50 resize-none"
+                  />
+                </div>
+                
+                <Button type="submit" className="w-full" size="lg">
+                  Send Message
+                </Button>
+              </form>
+            </div>
+          )}
           
           {/* Contact Info */}
           <div className="space-y-6 md:space-y-8 w-full max-w-lg md:max-w-none">
