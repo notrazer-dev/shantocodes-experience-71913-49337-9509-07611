@@ -30,10 +30,10 @@ const Skills = () => {
             className="w-full"
           >
             <CarouselContent>
-              {Array.from({ length: Math.ceil(skills.length / 20) }).map((_, pageIndex) => (
+              {Array.from({ length: Math.ceil(skills.length / 16) }).map((_, pageIndex) => (
                 <CarouselItem key={pageIndex}>
                   <div className="grid grid-cols-4 gap-4">
-                    {skills.slice(pageIndex * 20, (pageIndex + 1) * 20).map((skill, index) => (
+                    {skills.slice(pageIndex * 16, (pageIndex + 1) * 16).map((skill, index) => (
                       <div
                         key={skill.name}
                         className="flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 animate-fade-in"
