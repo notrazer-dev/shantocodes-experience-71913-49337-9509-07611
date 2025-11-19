@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Github, Linkedin, Mail } from "lucide-react";
-import { useState } from "react";
+import { Github, Linkedin, Mail, Copy } from "lucide-react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
+  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,9 +16,35 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic would go here
-    toast.success("Message sent! I'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+    if (form.current) {
+      emailjs
+        .sendForm(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          form.current,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        )
+        .then(
+          () => {
+            toast.success("Message sent! I'll get back to you soon.");
+            setFormData({ name: "", email: "", message: "" });
+          },
+          (error) => {
+            console.log("FAILED...", error.text);
+            toast.error("Failed to send message. Please try again later.");
+          }
+        );
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText("shantojoseph23@gmail.com");
+      toast.success("Email copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+      toast.error("Failed to copy email.");
+    }
   };
 
   return (
@@ -32,7 +60,7 @@ const Contact = () => {
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center md:justify-items-stretch max-w-full md:max-w-none">
           {/* Contact Form */}
           <div className="glass-card rounded-2xl p-6 md:p-8 w-full max-w-lg md:max-w-none">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
                   Name
@@ -40,6 +68,7 @@ const Contact = () => {
                 <Input
                   id="name"
                   type="text"
+                  name="user_name"
                   placeholder="Your name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -55,6 +84,7 @@ const Contact = () => {
                 <Input
                   id="email"
                   type="email"
+                  name="user_email"
                   placeholder="your.email@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -69,6 +99,7 @@ const Contact = () => {
                 </label>
                 <Textarea
                   id="message"
+                  name="message"
                   placeholder="Tell me about your project..."
                   rows={5}
                   value={formData.message}
@@ -89,13 +120,16 @@ const Contact = () => {
             <div className="glass-card rounded-2xl p-8">
               <h3 className="text-xl font-semibold mb-6">Connect With Me</h3>
               <div className="space-y-4">
-                <a 
-                  href="mailto:contact@shantojoseph.com"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Mail className="w-5 h-5" />
-                  <span>contact@shantojoseph.com</span>
-                </a>
+                <div className="flex items-center gap-x-2">
+                  <a 
+                    href="mailto:shantojoseph23@gmail.com"
+                    className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <Mail className="w-5 h-5" />
+                    <span>shantojoseph23@gmail.com</span>
+                  </a>
+                  <Copy className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary" onClick={handleCopy} />
+                </div>
                 <a 
                   href="https://github.com"
                   target="_blank"
