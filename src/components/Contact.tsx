@@ -141,16 +141,16 @@ const Contact = () => {
                   <Copy className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary" onClick={handleCopy} />
                 </div>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/shanto-joseph"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                 >
                   <Github className="w-5 h-5" />
-                  <span>github.com/shantojoseph</span>
+                  <span>github.com/shanto-joseph</span>
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/shanto-joseph/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
