@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Home, User, Briefcase, Code, Mail } from "lucide-react";
+import { Menu, X, Home, User, Briefcase, Code, Mail, Settings } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,7 @@ const navItems = [
   { title: "Projects", id: "projects", icon: Briefcase },
   { title: "Skills", id: "skills", icon: Code },
   { title: "Contact", id: "contact", icon: Mail },
+  { title: "Settings", id: "settings", icon: Settings },
 ];
 
 export function MobileNav() {
@@ -53,7 +54,9 @@ export function MobileNav() {
   }, []);
 
   const scrollToSection = (id: string) => {
-    if (id === "home" && !isHomePage) {
+    if (id === "settings") {
+      setSettingsOpen(true);
+    } else if (id === "home" && !isHomePage) {
       navigate("/");
     } else {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -81,7 +84,7 @@ export function MobileNav() {
           </SheetHeader>
           <nav className="mt-8 space-y-2">
             {displayNavItems.map((item) => {
-              const isActive = activeSection === item.id;
+              const isActive = item.id === "settings" ? false : activeSection === item.id;
               return (
                 <button
                   key={item.id}
@@ -104,13 +107,11 @@ export function MobileNav() {
             })}
           </nav>
           
-          <div className="mt-6 pt-6 border-t border-border/50">
-            <SettingsDialog 
-              variant="text"
-              open={settingsOpen}
-              onOpenChange={setSettingsOpen}
-            />
-          </div>
+          <SettingsDialog 
+            variant="text"
+            open={settingsOpen}
+            onOpenChange={setSettingsOpen}
+          />
         </SheetContent>
       </Sheet>
     </div>
