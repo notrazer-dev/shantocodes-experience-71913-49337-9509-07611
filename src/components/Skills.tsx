@@ -1,4 +1,11 @@
 import skillsData from "@/data/skills.json";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Skills = () => {
   const skills = skillsData.skills;
@@ -13,24 +20,40 @@ const Skills = () => {
           A comprehensive toolkit for building modern, scalable applications
         </p>
         
-        {/* Mobile: 3-column grid */}
-        <div className="md:hidden grid grid-cols-3 gap-4">
-          {skills.map((skill, index) => {
-            return (
-              <div
-                key={skill.name}
-                className="flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 animate-fade-in"
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-2">
-                  <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
-                </div>
-                <span className="text-xs text-center font-medium text-foreground line-clamp-2">
-                  {skill.name}
-                </span>
-              </div>
-            );
-          })}
+        {/* Mobile: 4-column swipeable grid */}
+        <div className="md:hidden">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {Array.from({ length: Math.ceil(skills.length / 20) }).map((_, pageIndex) => (
+                <CarouselItem key={pageIndex}>
+                  <div className="grid grid-cols-4 gap-4">
+                    {skills.slice(pageIndex * 20, (pageIndex + 1) * 20).map((skill, index) => (
+                      <div
+                        key={skill.name}
+                        className="flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 animate-fade-in"
+                        style={{ animationDelay: `${index * 0.05}s` }}
+                      >
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-2">
+                          <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
+                        </div>
+                        <span className="text-[10px] text-center font-medium text-foreground line-clamp-2">
+                          {skill.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0" />
+            <CarouselNext className="right-0" />
+          </Carousel>
         </div>
 
         {/* Desktop: Full grid */}
