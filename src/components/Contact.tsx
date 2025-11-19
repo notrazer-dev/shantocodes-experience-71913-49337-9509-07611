@@ -118,51 +118,55 @@ const Contact = () => {
             </div>
           )}
           
-          <div 
-            className={`w-full max-w-lg md:max-w-none ${import.meta.env.VITE_EMAIL_FORM === 'false' ? 'col-span-1 grid md:grid-cols-2 gap-8' : 'space-y-6 md:space-y-8'}`}
+          {/* Contact Info */}
+          <div
+            className={
+              import.meta.env.VITE_EMAIL_FORM === 'true'
+                ? 'space-y-6 md:space-y-8 w-full max-w-lg md:max-w-none'
+                : 'col-span-2 grid md:grid-cols-2 gap-8' // Adjusted classes when form is false
+            }
           >
-            {/* Contact Info */}
-            <div className="space-y-6 md:space-y-8">
-              <div className="glass-card rounded-2xl p-8">
-                <h3 className="text-xl font-semibold mb-6">Connect With Me</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-x-2">
-                    <a 
-                      href="mailto:shantojoseph23@gmail.com"
-                      className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      <Mail className="w-5 h-5" />
-                      <span>shantojoseph23@gmail.com</span>
-                    </a>
-                    <Copy className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary" onClick={handleCopy} />
-                  </div>
-                  <a 
-                    href="https://github.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
+            {/* Connect With Me */}
+            <div className="glass-card rounded-2xl p-8">
+              <h3 className="text-xl font-semibold mb-6">Connect With Me</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-x-2">
+                  <a
+                    href="mailto:shantojoseph23@gmail.com"
                     className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                   >
-                    <Github className="w-5 h-5" />
-                    <span>github.com/shantojoseph</span>
+                    <Mail className="w-5 h-5" />
+                    <span>shantojoseph23@gmail.com</span>
                   </a>
-                  <a 
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                    <span>linkedin.com/in/shantojoseph</span>
-                  </a>
+                  <Copy className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary" onClick={handleCopy} />
                 </div>
+                <a
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Github className="w-5 h-5" />
+                  <span>github.com/shantojoseph</span>
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Linkedin className="w-5 h-5" />
+                  <span>linkedin.com/in/shantojoseph</span>
+                </a>
               </div>
             </div>
             
+            {/* Let's Build Something */}
             <div className="glass-card rounded-2xl p-8">
               <h3 className="text-xl font-semibold mb-4">Let's Build Something</h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm always excited to work on innovative projects and collaborate with creative teams. 
-                Whether you need a full-stack application, consulting, or just want to discuss ideas, 
+                I'm always excited to work on innovative projects and collaborate with creative teams.
+                Whether you need a full-stack application, consulting, or just want to discuss ideas,
                 don't hesitate to reach out!
               </p>
             </div>
