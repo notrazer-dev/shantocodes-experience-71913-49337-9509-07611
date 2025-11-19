@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Home, Briefcase, Code, Mail, Sun, Moon } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Home, Briefcase, Code, Mail } from "lucide-react";
+import { SettingsDialog } from "@/components/SettingsDialog";
 
 const navItems = [
   { title: "Home", id: "home", icon: Home },
@@ -12,7 +12,7 @@ const navItems = [
 export function BottomNav() {
   const [activeSection, setActiveSection] = useState("home");
   const [isVisible, setIsVisible] = useState(true);
-  const { theme, setTheme } = useTheme();
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Reset hide timer
@@ -107,18 +107,14 @@ export function BottomNav() {
               );
             })}
 
-            {/* Theme Toggle */}
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2.5 rounded-full transition-all duration-300 hover:bg-muted/60 text-muted-foreground hover:text-foreground ml-1"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" strokeWidth={2} />
-              ) : (
-                <Moon className="h-5 w-5" strokeWidth={2} />
-              )}
-            </button>
+            {/* Settings Button */}
+            <div className="ml-1">
+              <SettingsDialog
+                variant="icon"
+                open={settingsOpen}
+                onOpenChange={setSettingsOpen}
+              />
+            </div>
           </div>
         </div>
       </nav>
