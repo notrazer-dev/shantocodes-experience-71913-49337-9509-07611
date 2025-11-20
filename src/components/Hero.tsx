@@ -1,10 +1,34 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, ChevronDown } from "lucide-react";
+import { Github, Linkedin, Mail, ChevronDown, Copy, Check } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { toast } from "sonner";
 // import heroBackground from "@/assets/hero-background.jpg";
 
 const Hero = () => {
+  const [isEmailSheetOpen, setIsEmailSheetOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const email = "shantojoseph23@gmail.com";
+
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      toast.success("Email copied to clipboard!");
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast.error("Failed to copy email");
+    }
   };
 
   return (
@@ -68,12 +92,12 @@ const Hero = () => {
           >
             <Linkedin className="w-6 h-6" />
           </a>
-          <a 
-            href="mailto:shantojoseph23@gmail.com"
+          <button
+            onClick={() => setIsEmailSheetOpen(true)}
             className="text-muted-foreground hover:text-primary transition-colors duration-300"
           >
             <Mail className="w-6 h-6" />
-          </a>
+          </button>
         </div>
       </div>
       
@@ -85,6 +109,47 @@ const Hero = () => {
       >
         <ChevronDown className="w-8 h-8" />
       </button>
+
+      {/* Email Sheet */}
+      <Sheet open={isEmailSheetOpen} onOpenChange={setIsEmailSheetOpen}>
+        <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+          <SheetHeader>
+            <SheetTitle>Get in Touch</SheetTitle>
+            <SheetDescription>
+              Feel free to reach out via email
+            </SheetDescription>
+          </SheetHeader>
+          <div className="mt-6 space-y-4">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
+              <Mail className="w-5 h-5 text-primary" />
+              <span className="text-sm font-medium">{email}</span>
+            </div>
+            <Button
+              onClick={handleCopy}
+              className="w-full"
+              variant="outline"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4 mr-2" />
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy Email
+                </>
+              )}
+            </Button>
+            <a href={`mailto:${email}`} className="block">
+              <Button className="w-full" variant="default">
+                <Mail className="w-4 h-4 mr-2" />
+                Send Email
+              </Button>
+            </a>
+          </div>
+        </SheetContent>
+      </Sheet>
     </section>
   );
 };
