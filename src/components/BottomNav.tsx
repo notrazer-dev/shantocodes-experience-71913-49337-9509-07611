@@ -76,16 +76,15 @@ export function BottomNav() {
   const activeItem = navItems.find(item => item.id === activeSection);
 
   return (
-    <div 
-      className={`fixed bottom-4 left-4 right-4 z-50 xl:hidden transition-all duration-500 ${
-        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'
-      }`}
+    <div
+      className={`fixed bottom-4 left-4 right-4 z-50 xl:hidden transition-all duration-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'
+        }`}
     >
       <nav className="glass-card border border-border/50 rounded-[2rem] px-6 py-4 shadow-[0_8px_32px_hsl(0_0%_0%_/_0.15)]">
         <div className="flex items-center justify-between gap-2">
           {/* Active section with icon and name */}
           {activeItem && (
-            <div className="flex items-center gap-2 bg-primary/20 text-primary px-4 py-2 rounded-full">
+            <div className="flex items-center gap-2 bg-muted/60 text-primary px-4 py-2 rounded-full">
               <activeItem.icon className="h-5 w-5" strokeWidth={2.5} />
               <span className="font-medium text-sm">{activeItem.title}</span>
             </div>

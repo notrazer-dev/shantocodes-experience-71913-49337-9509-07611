@@ -75,7 +75,7 @@ export function VerticalNav() {
                   className={`
                     relative h-12 w-12 rounded-xl transition-all duration-300
                     ${isActive
-                      ? "bg-primary/20 text-primary hover:bg-primary/25 shadow-[0_0_20px_hsl(var(--primary)/0.2)]"
+                      ? "bg-muted/60 text-primary"
                       : "hover:bg-muted/60 text-muted-foreground hover:text-foreground"
                     }
                   `}

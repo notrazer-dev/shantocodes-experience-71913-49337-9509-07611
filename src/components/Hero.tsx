@@ -141,12 +141,17 @@ const Hero = () => {
                 </>
               )}
             </Button>
-            <a href={`mailto:${email}`} className="block">
-              <Button className="w-full" variant="default">
-                <Mail className="w-4 h-4 mr-2" />
-                Send Email
-              </Button>
-            </a>
+            <Button 
+              className="w-full" 
+              variant="default"
+              onClick={() => {
+                setIsEmailSheetOpen(false);
+                scrollToSection("contact");
+              }}
+            >
+              <Mail className="w-4 h-4 mr-2" />
+              Contact
+            </Button>
           </div>
         </SheetContent>
       </Sheet>

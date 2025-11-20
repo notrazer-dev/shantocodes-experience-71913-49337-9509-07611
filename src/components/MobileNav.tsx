@@ -91,23 +91,20 @@ export function MobileNav() {
                   onClick={() => scrollToSection(item.id)}
                   className={`
                     w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-300
-                    ${isActive 
-                      ? "bg-primary/20 text-primary border-l-4 border-primary" 
+                    ${isActive
+                      ? "bg-muted text-primary"
                       : "hover:bg-muted text-muted-foreground hover:text-foreground"
                     }
                   `}
                 >
                   <item.icon className="h-5 w-5" />
                   <span className="font-medium">{item.title}</span>
-                  {isActive && (
-                    <div className="ml-auto w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  )}
                 </button>
               );
             })}
           </nav>
-          
-          <SettingsDialog 
+
+          <SettingsDialog
             variant="text"
             open={settingsOpen}
             onOpenChange={setSettingsOpen}
