@@ -68,24 +68,27 @@ export function SettingsDialog({ variant = "icon", open, onOpenChange }: Setting
           {/* Color Selection */}
           <div className="space-y-3">
             <label className="text-sm font-medium">Theme Color</label>
-            <div className="flex gap-3 justify-center">
+            <div className="flex gap-3 justify-center items-center">
               {colorOptions.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => setThemeColor(option.value)}
                   className={`
                     relative h-10 w-10 rounded-full transition-all duration-300
-                    ${themeColor === option.value ? "ring-2 ring-offset-2 ring-offset-background scale-110" : "hover:scale-105"}
+                    ${themeColor === option.value ? "scale-110" : "hover:scale-105"}
                   `}
                   style={{
-                    backgroundColor: option.color,
-                    boxShadow: themeColor === option.value ? `0 0 20px ${option.color}80` : 'none'
+                    background: `linear-gradient(${option.color}, ${option.color})`,
+                    padding: '3px'
                   }}
                   title={option.name}
                 >
-                  {themeColor === option.value && (
-                    <div className="absolute inset-0 rounded-full border-2 border-white/30" />
-                  )}
+                  <div
+                    className="w-full h-full rounded-full bg-background transition-all duration-300"
+                    style={{
+                      boxShadow: themeColor === option.value ? `0 0 0 2px ${option.color}` : 'none'
+                    }}
+                  />
                 </button>
               ))}
             </div>
