@@ -22,6 +22,7 @@ export function VerticalNav() {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("home");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [isTooltipEnabled, setIsTooltipEnabled] = useState(true);
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -73,16 +74,15 @@ export function VerticalNav() {
                   onClick={() => scrollToSection(item.id)}
                   className={`
                     relative h-12 w-12 rounded-xl transition-all duration-300
-                    ${isActive 
-                      ? "bg-primary/20 text-primary hover:bg-primary/25 shadow-[0_0_20px_hsl(var(--primary)/0.2)]" 
+                    ${isActive
+                      ? "bg-primary/20 text-primary hover:bg-primary/25 shadow-[0_0_20px_hsl(var(--primary)/0.2)]"
                       : "hover:bg-muted/60 text-muted-foreground hover:text-foreground"
                     }
                   `}
                 >
-                  <item.icon 
-                    className={`h-5 w-5 transition-all duration-300 ${
-                      isActive ? "scale-110 drop-shadow-[0_0_12px_hsl(var(--primary)/0.6)]" : ""
-                    }`}
+                  <item.icon
+                    className={`h-5 w-5 transition-all duration-300 ${isActive ? "scale-110 drop-shadow-[0_0_12px_hsl(var(--primary)/0.6)]" : ""
+                      }`}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
                   {isActive && (
@@ -96,16 +96,25 @@ export function VerticalNav() {
             </Tooltip>
           );
         })}
-        
+
         {/* Settings */}
         <div className="mt-4 pt-4 border-t border-border/50">
-          <Tooltip delayDuration={0} open={settingsOpen ? false : undefined}>
+          <Tooltip
+            delayDuration={0}
+            open={(settingsOpen || !isTooltipEnabled) ? false : undefined}
+          >
             <TooltipTrigger asChild>
               <div>
-                <SettingsDialog 
-                  variant="icon" 
+                <SettingsDialog
+                  variant="icon"
                   open={settingsOpen}
-                  onOpenChange={setSettingsOpen}
+                  onOpenChange={(open) => {
+                    setSettingsOpen(open);
+                    if (!open) {
+                      setIsTooltipEnabled(false);
+                      setTimeout(() => setIsTooltipEnabled(true), 1000);
+                    }
+                  }}
                 />
               </div>
             </TooltipTrigger>

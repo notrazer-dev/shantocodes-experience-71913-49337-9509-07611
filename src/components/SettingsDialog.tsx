@@ -1,4 +1,5 @@
-import { Settings, Sun, Moon } from "lucide-react";
+import { Settings } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,30 +55,13 @@ export function SettingsDialog({ variant = "icon", open, onOpenChange }: Setting
             Customize your theme and color preferences
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="space-y-6 py-4">
           {/* Theme Mode Selection */}
           <div className="space-y-3">
             <label className="text-sm font-medium">Theme Mode</label>
-            <div className="flex gap-2">
-              <Button
-                variant={theme === "light" ? "default" : "outline"}
-                size="sm"
-                className="flex-1"
-                onClick={() => setTheme("light")}
-              >
-                <Sun className="h-4 w-4 mr-2" />
-                Light
-              </Button>
-              <Button
-                variant={theme === "dark" ? "default" : "outline"}
-                size="sm"
-                className="flex-1"
-                onClick={() => setTheme("dark")}
-              >
-                <Moon className="h-4 w-4 mr-2" />
-                Dark
-              </Button>
+            <div className="flex justify-center">
+              <ThemeToggle />
             </div>
           </div>
 
@@ -93,7 +77,7 @@ export function SettingsDialog({ variant = "icon", open, onOpenChange }: Setting
                     relative h-10 w-10 rounded-full transition-all duration-300
                     ${themeColor === option.value ? "ring-2 ring-offset-2 ring-offset-background scale-110" : "hover:scale-105"}
                   `}
-                  style={{ 
+                  style={{
                     backgroundColor: option.color,
                     boxShadow: themeColor === option.value ? `0 0 20px ${option.color}80` : 'none'
                   }}
