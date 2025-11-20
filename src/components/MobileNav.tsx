@@ -97,7 +97,7 @@ export function MobileNav() {
                     }
                   `}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.icon className="h-5 w-5 transition-transform duration-300 hover:scale-110" />
                   <span className="font-medium">{item.title}</span>
                 </button>
               );

@@ -37,13 +37,13 @@ export function SettingsDialog({ variant = "icon", open, onOpenChange }: Setting
           <Button
             variant="ghost"
             size="icon"
-            className="h-12 w-12 rounded-xl transition-all duration-300 hover:bg-muted/60 text-muted-foreground hover:text-foreground"
+            className="h-12 w-12 rounded-xl transition-all duration-300 hover:bg-muted/60 text-muted-foreground hover:text-foreground group"
           >
-            <Settings className="h-5 w-5" strokeWidth={2} />
+            <Settings className="h-5 w-5 animate-spin-slow" strokeWidth={2} />
           </Button>
         ) : (
-          <button className="w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-300 hover:bg-muted text-muted-foreground hover:text-foreground">
-            <Settings className="h-5 w-5" />
+          <button className="w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-300 hover:bg-muted text-muted-foreground hover:text-foreground group">
+            <Settings className="h-5 w-5 animate-spin-slow" />
             <span className="font-medium">Settings</span>
           </button>
         )}

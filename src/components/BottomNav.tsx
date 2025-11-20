@@ -85,7 +85,7 @@ export function BottomNav() {
           {/* Active section with icon and name */}
           {activeItem && (
             <div className="flex items-center gap-2 bg-muted/60 text-primary px-4 py-2 rounded-full">
-              <activeItem.icon className="h-5 w-5" strokeWidth={2.5} />
+              <activeItem.icon className="h-5 w-5 transition-transform duration-300 hover:scale-110" strokeWidth={2.5} />
               <span className="font-medium text-sm">{activeItem.title}</span>
             </div>
           )}
@@ -101,7 +101,7 @@ export function BottomNav() {
                   className="p-2.5 rounded-full transition-all duration-300 hover:bg-muted/60 text-muted-foreground hover:text-foreground"
                   aria-label={item.title}
                 >
-                  <item.icon className="h-5 w-5" strokeWidth={2} />
+                  <item.icon className="h-5 w-5 transition-transform duration-300 hover:scale-110" strokeWidth={2} />
                 </button>
               );
             })}

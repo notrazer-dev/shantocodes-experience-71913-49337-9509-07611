@@ -81,7 +81,7 @@ export function VerticalNav() {
                   `}
                 >
                   <item.icon
-                    className={`h-5 w-5 transition-all duration-300 ${isActive ? "scale-110 drop-shadow-[0_0_12px_hsl(var(--primary)/0.6)]" : ""
+                    className={`h-5 w-5 transition-all duration-300 hover:scale-110 ${isActive ? "scale-110 drop-shadow-[0_0_12px_hsl(var(--primary)/0.6)]" : ""
                       }`}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
