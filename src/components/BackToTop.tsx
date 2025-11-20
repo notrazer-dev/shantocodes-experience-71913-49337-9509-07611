@@ -71,7 +71,7 @@ export function BackToTop() {
         <Button
           onClick={scrollToTop}
           size="icon"
-          className="bg-black hover:bg-black/80 text-white rounded-full shadow-lg relative"
+          className="bg-black hover:bg-black/80 text-primary rounded-full shadow-lg relative"
           aria-label="Back to top"
         >
           <ChevronUp className="h-5 w-5" />
