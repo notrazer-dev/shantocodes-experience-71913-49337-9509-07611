@@ -19,7 +19,7 @@ const Skills = () => {
         <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
           A comprehensive toolkit for building modern, scalable applications
         </p>
-        
+
         {/* Mobile: 4-column swipeable grid */}
         <div className="md:hidden">
           <Carousel
@@ -51,8 +51,7 @@ const Skills = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-0" />
-            <CarouselNext className="right-0" />
+
           </Carousel>
         </div>
 
