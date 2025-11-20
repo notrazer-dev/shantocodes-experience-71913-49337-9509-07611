@@ -26,7 +26,7 @@ export function BackToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const circumference = 2 * Math.PI * 20; // radius = 20
+  const circumference = 2 * Math.PI * 21; // radius = 21
   const strokeDashoffset = circumference - (scrollProgress / 100) * circumference;
 
   return (
@@ -40,15 +40,25 @@ export function BackToTop() {
       <div className="relative">
         {/* Circular progress indicator */}
         <svg
-          className="absolute -inset-1 w-12 h-12 -rotate-90"
+          className="absolute -inset-1.5 w-[52px] h-[52px] -rotate-90"
           xmlns="http://www.w3.org/2000/svg"
         >
+          {/* Background circle */}
           <circle
-            cx="24"
-            cy="24"
-            r="20"
+            cx="26"
+            cy="26"
+            r="21"
+            stroke="hsl(var(--primary) / 0.2)"
+            strokeWidth="3"
+            fill="none"
+          />
+          {/* Progress circle */}
+          <circle
+            cx="26"
+            cy="26"
+            r="21"
             stroke="hsl(var(--primary))"
-            strokeWidth="2"
+            strokeWidth="3"
             fill="none"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
