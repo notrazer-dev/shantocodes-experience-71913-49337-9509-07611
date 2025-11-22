@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useThemeColor, ThemeColor } from "@/hooks/use-theme-color";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 const colorOptions: { name: string; value: ThemeColor; color: string }[] = [
   { name: "Green", value: "green", color: "hsl(120 61% 34%)" },
@@ -26,9 +27,13 @@ interface SettingsDialogProps {
   onOpenChange?: (open: boolean) => void;
 }
 
+
+
 export function SettingsDialog({ variant = "icon", open, onOpenChange }: SettingsDialogProps) {
   const { theme, setTheme } = useTheme();
   const { themeColor, setThemeColor } = useThemeColor();
+
+  const currentColor = colorOptions.find(c => c.value === themeColor)?.color || "#000000";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -48,52 +53,58 @@ export function SettingsDialog({ variant = "icon", open, onOpenChange }: Setting
           </button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Settings</DialogTitle>
-          <DialogDescription>
-            Customize your theme and color preferences
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="w-[90%] sm:max-w-md border-0 p-0 overflow-hidden rounded-lg">
+        <ShineBorder
+          className="relative w-full p-6 bg-background text-foreground"
+          color={currentColor}
+          borderRadius={12}
+        >
+          <DialogHeader>
+            <DialogTitle>Settings</DialogTitle>
+            <DialogDescription>
+              Customize your theme and color preferences
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          {/* Theme Mode Selection */}
-          <div className="space-y-3">
-            <label className="text-sm font-medium">Theme Mode</label>
-            <div className="flex justify-center">
-              <ThemeToggle />
+          <div className="space-y-6 py-4">
+            {/* Theme Mode Selection */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Theme Mode</label>
+              <div className="flex justify-center">
+                <ThemeToggle />
+              </div>
             </div>
-          </div>
 
-          {/* Color Selection */}
-          <div className="space-y-3">
-            <label className="text-sm font-medium">Theme Color</label>
-            <div className="flex gap-3 justify-center items-center">
-              {colorOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => setThemeColor(option.value)}
-                  className={`
-                    relative h-10 w-10 rounded-full transition-all duration-300
-                    ${themeColor === option.value ? "scale-110" : "hover:scale-105"}
-                  `}
-                  style={{
-                    background: `linear-gradient(${option.color}, ${option.color})`,
-                    padding: '3px'
-                  }}
-                  title={option.name}
-                >
-                  <div
-                    className="w-full h-full rounded-full bg-background transition-all duration-300"
+            {/* Color Selection */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Theme Color</label>
+              <div className="flex gap-3 justify-center items-center">
+                {colorOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setThemeColor(option.value)}
+                    className={`
+                      relative h-10 w-10 rounded-full transition-all duration-300
+                      ${themeColor === option.value ? "scale-110" : "hover:scale-105"}
+                    `}
                     style={{
-                      boxShadow: themeColor === option.value ? `0 0 0 2px ${option.color}` : 'none'
+                      background: `linear-gradient(${option.color}, ${option.color})`,
+                      padding: '3px'
                     }}
-                  />
-                </button>
-              ))}
+                    title={option.name}
+                  >
+                    <div
+                      className="w-full h-full rounded-full bg-background transition-all duration-300"
+                      style={{
+                        boxShadow: themeColor === option.value ? `0 0 0 2px ${option.color}` : 'none'
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </ShineBorder>
       </DialogContent>
     </Dialog>
   );

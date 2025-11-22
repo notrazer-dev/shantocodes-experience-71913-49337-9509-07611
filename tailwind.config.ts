@@ -58,6 +58,9 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      boxShadow: {
+        "sidebar-floating": "0 8px 32px hsl(0 0% 0% / 0.15), 0 0 0 1px hsl(var(--sidebar-border) / 0.1)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -105,7 +108,18 @@ export default {
           "50%": {
             boxShadow: "0 0 40px hsl(var(--primary) / 0.6)"
           }
-        }
+        },
+        shine: {
+          "0%": {
+            "background-position": "0% 0%",
+          },
+          "50%": {
+            "background-position": "100% 100%",
+          },
+          to: {
+            "background-position": "0% 0%",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -113,6 +127,7 @@ export default {
         "fade-in": "fade-in 0.6s ease-out",
         "float": "float 3s ease-in-out infinite",
         "glow": "glow 2s ease-in-out infinite",
+        shine: "shine var(--duration) infinite linear",
       },
     },
   },
