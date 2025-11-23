@@ -4,30 +4,58 @@
       "id": 1,
       "title": "Analytics Dashboard",
       "description": "Real-time data visualization dashboard with interactive charts and metrics for business intelligence.",
-      "image": "project-1.jpg",
-      "tech": ["React", "TypeScript", "Python", "PostgreSQL"],
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+      "images": [
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
+        "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800"
+      ],
+      "tech": [
+        "React",
+        "TypeScript",
+        "Python",
+        "PostgreSQL"
+      ],
       "github": "https://github.com",
-      "demo": "https://demo.com",
+      "live": "https://example.com",
       "featured": true
     },
     {
       "id": 2,
       "title": "E-Commerce Platform",
       "description": "Full-featured online shopping platform with cart, payments, and inventory management.",
-      "image": "project-2.jpg",
-      "tech": ["React", "Node.js", "Stripe", "MongoDB"],
+      "image": "https://images.unsplash.com/photo-1557821552-17105176677c?w=800",
+      "images": [
+        "https://images.unsplash.com/photo-1557821552-17105176677c?w=800",
+        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+      ],
+      "tech": [
+        "React",
+        "Node.js",
+        "Stripe",
+        "MongoDB"
+      ],
       "github": "https://github.com",
-      "demo": "https://demo.com",
+      "live": "https://example.com",
       "featured": true
     },
     {
       "id": 3,
       "title": "AI Chat Assistant",
       "description": "Intelligent chatbot powered by machine learning for automated customer support and engagement.",
-      "image": "project-3.jpg",
-      "tech": ["Python", "TensorFlow", "React", "FastAPI"],
+      "image": "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800",
+      "images": [
+        "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800",
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
+        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800"
+      ],
+      "tech": [
+        "Python",
+        "TensorFlow",
+        "React",
+        "FastAPI"
+      ],
       "github": "https://github.com",
-      "demo": "https://demo.com",
       "featured": false
     }
   ]

@@ -88,7 +88,7 @@ const VantaBackground = () => {
     return (
         <div
             ref={vantaRef}
-            className="fixed inset-0 -z-10 w-full h-full pointer-events-none [mask-image:linear-gradient(to_right,black_0%,black_40%,transparent_100%)] md:[mask-image:linear-gradient(to_right,black_0%,black_30%,transparent_100%)]"
+            className="fixed inset-0 -z-10 w-full h-full pointer-events-none"
         />
     );
 };
