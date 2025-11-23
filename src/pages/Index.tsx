@@ -21,7 +21,7 @@ const Index = () => {
         <BottomNav />
       </div>
 
-      <main className="flex-1 bg-background">
+      <main className="flex-1">
         <Hero />
         <About />
         <Projects />
@@ -29,7 +29,7 @@ const Index = () => {
         <Contact />
         <Footer />
       </main>
-      
+
       <BackToTop />
     </div>
   );

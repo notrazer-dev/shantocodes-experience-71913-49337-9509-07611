@@ -127,8 +127,10 @@ export default {
         "fade-in": "fade-in 0.6s ease-out",
         "float": "float 3s ease-in-out infinite",
         "glow": "glow 2s ease-in-out infinite",
-        shine: "shine var(--duration) infinite linear",
+        "star-movement-bottom": "star-movement-bottom linear infinite alternate",
+        "star-movement-top": "star-movement-top linear infinite alternate",
       },
+
     },
   },
   plugins: [require("tailwindcss-animate")],

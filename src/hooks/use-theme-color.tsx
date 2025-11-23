@@ -1,6 +1,13 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export type ThemeColor = "green" | "blue" | "purple" | "orange" | "pink";
+
+interface ThemeColorState {
+  themeColor: ThemeColor;
+  setThemeColor: (color: ThemeColor) => void;
+}
+
+const ThemeColorContext = createContext<ThemeColorState | undefined>(undefined);
 
 const colorThemes = {
   green: {
@@ -25,31 +32,13 @@ const colorThemes = {
   }
 };
 
-export function useThemeColor() {
+export function ThemeColorProvider({ children }: { children: React.ReactNode }) {
   const [themeColor, setThemeColorState] = useState<ThemeColor>(() => {
     const stored = localStorage.getItem("theme-color");
     return (stored as ThemeColor) || "green";
   });
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const isDark = root.classList.contains("dark");
-    const theme = isDark ? colorThemes[themeColor].dark : colorThemes[themeColor].light;
-
-    root.style.setProperty("--primary", theme.primary);
-    root.style.setProperty("--accent", theme.accent);
-    root.style.setProperty("--ring", theme.ring);
-    
-    // Also update sidebar tokens
-    root.style.setProperty("--sidebar-primary", theme.primary);
-    root.style.setProperty("--sidebar-ring", theme.ring);
-  }, [themeColor]);
-
-  const setThemeColor = (color: ThemeColor) => {
-    setThemeColorState(color);
-    localStorage.setItem("theme-color", color);
-    
-    // Trigger color update
+  const applyTheme = (color: ThemeColor) => {
     const root = document.documentElement;
     const isDark = root.classList.contains("dark");
     const theme = isDark ? colorThemes[color].dark : colorThemes[color].light;
@@ -61,5 +50,45 @@ export function useThemeColor() {
     root.style.setProperty("--sidebar-ring", theme.ring);
   };
 
-  return { themeColor, setThemeColor };
+  useEffect(() => {
+    applyTheme(themeColor);
+  }, [themeColor]);
+
+  const setThemeColor = (color: ThemeColor) => {
+    setThemeColorState(color);
+    localStorage.setItem("theme-color", color);
+    applyTheme(color);
+  };
+
+  // Listen for class changes on html element to re-apply correct HSL values when switching light/dark
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "class") {
+          applyTheme(themeColor);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, [themeColor]);
+
+  return (
+    <ThemeColorContext.Provider value={{ themeColor, setThemeColor }}>
+      {children}
+    </ThemeColorContext.Provider>
+  );
+}
+
+export function useThemeColor() {
+  const context = useContext(ThemeColorContext);
+  if (context === undefined) {
+    throw new Error("useThemeColor must be used within a ThemeColorProvider");
+  }
+  return context;
 }

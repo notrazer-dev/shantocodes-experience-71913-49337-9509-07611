@@ -24,7 +24,7 @@ const Projects = () => {
     }));
 
   return (
-    <section id="projects" className="py-20 px-4 bg-muted/20">
+    <section id="projects" className="py-20 px-4" style={{ background: 'linear-gradient(to bottom, hsl(var(--background) / 0.6) 0%, transparent 20%)' }}>
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
           Featured Projects
@@ -32,7 +32,7 @@ const Projects = () => {
         <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
           A showcase of my recent work, from web applications to AI-powered solutions
         </p>
-        
+
         <Carousel
           opts={{
             align: "start",
@@ -43,30 +43,30 @@ const Projects = () => {
           <CarouselContent className="-ml-4">
             {featuredProjects.map((project, index) => (
               <CarouselItem key={project.title} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                <Card 
+                <Card
                   className="glass-card border-border/50 overflow-hidden group hover:shadow-2xl transition-all duration-300 animate-fade-in h-full"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={project.image} 
+                    <img
+                      src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60"></div>
                   </div>
-                  
+
                   <CardHeader>
                     <CardTitle className="text-xl">{project.title}</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       {project.description}
                     </CardDescription>
                   </CardHeader>
-                  
+
                   <CardContent>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {project.tech.map((tech) => (
-                        <span 
+                        <span
                           key={tech}
                           className="px-2 py-1 bg-primary/10 text-primary text-xs rounded"
                         >
@@ -74,11 +74,11 @@ const Projects = () => {
                         </span>
                       ))}
                     </div>
-                    
+
                     <div className="flex gap-3">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
+                      <Button
+                        variant="outline"
+                        size="sm"
                         className="flex-1"
                         asChild
                       >
@@ -87,9 +87,9 @@ const Projects = () => {
                           Code
                         </a>
                       </Button>
-                      <Button 
-                        variant="default" 
-                        size="sm" 
+                      <Button
+                        variant="default"
+                        size="sm"
                         className="flex-1"
                         asChild
                       >
@@ -104,7 +104,7 @@ const Projects = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          
+
           <div className="flex justify-center gap-4 mt-8">
             <CarouselPrevious className="static translate-y-0" />
             <CarouselNext className="static translate-y-0" />

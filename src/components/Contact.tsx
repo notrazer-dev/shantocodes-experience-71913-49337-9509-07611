@@ -48,7 +48,11 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 px-4 bg-muted/20">
+    <section
+      id="contact"
+      className="py-20 px-4"
+      style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 25%)' }}
+    >
       <div className="container mx-auto max-w-4xl">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
           Get In Touch
@@ -56,8 +60,8 @@ const Contact = () => {
         <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
           Have a project in mind or want to collaborate? Feel free to reach out!
         </p>
-        
-        <div 
+
+        <div
           className={`grid ${import.meta.env.VITE_EMAIL_FORM === 'true' ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-8 md:gap-12 justify-items-center md:justify-items-stretch max-w-full md:max-w-none`}
         >
           {import.meta.env.VITE_EMAIL_FORM === 'true' && (
@@ -78,7 +82,7 @@ const Contact = () => {
                     className="bg-background/50"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium mb-2">
                     Email
@@ -94,7 +98,7 @@ const Contact = () => {
                     className="bg-background/50"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-2">
                     Message
@@ -110,14 +114,14 @@ const Contact = () => {
                     className="bg-background/50 resize-none"
                   />
                 </div>
-                
+
                 <Button type="submit" className="w-full" size="lg">
                   Send Message
                 </Button>
               </form>
             </div>
           )}
-          
+
           {/* Contact Info */}
           <div
             className={
@@ -160,7 +164,7 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-            
+
             {/* Let's Build Something */}
             <div className="glass-card rounded-2xl p-8">
               <h3 className="text-xl font-semibold mb-4">Let's Build Something</h3>

@@ -19,7 +19,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     }, [])
 
     if (!mounted) {
-        return <div className={cn("w-16 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800", className)} />
+        return <div className={cn("w-16 h-8 rounded-full bg-muted", className)} />
     }
 
     const isDark = resolvedTheme === "dark"
@@ -27,10 +27,8 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     return (
         <div
             className={cn(
-                "flex w-16 h-8 p-1 rounded-full cursor-pointer transition-all duration-300",
-                isDark
-                    ? "bg-zinc-950 border border-zinc-800"
-                    : "bg-white border border-zinc-200",
+                "relative flex w-16 h-8 p-1 rounded-full cursor-pointer transition-colors duration-300",
+                isDark ? "bg-zinc-950 border border-zinc-800" : "bg-zinc-100 border border-zinc-200",
                 className
             )}
             onClick={() => setTheme(isDark ? "light" : "dark")}
@@ -41,49 +39,34 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
                     setTheme(isDark ? "light" : "dark")
                 }
             }}
+            aria-label="Toggle theme"
         >
-            <div className="flex justify-between items-center w-full">
-                <div
-                    className={cn(
-                        "flex justify-center items-center w-6 h-6 rounded-full transition-transform duration-300",
-                        isDark
-                            ? "transform translate-x-0 bg-zinc-800"
-                            : "transform translate-x-8 bg-gray-200"
-                    )}
-                >
-                    {isDark ? (
-                        <Moon
-                            className="w-4 h-4 text-white"
-                            strokeWidth={1.5}
-                        />
-                    ) : (
-                        <Sun
-                            className="w-4 h-4 text-gray-700"
-                            strokeWidth={1.5}
-                        />
-                    )}
+            <div className="flex justify-between items-center w-full h-full px-0.5">
+                <div className="flex justify-center items-center w-6 h-6 z-10">
+                    <Sun
+                        className={cn(
+                            "w-4 h-4 transition-colors duration-300",
+                            !isDark ? "text-orange-500" : "text-zinc-600"
+                        )}
+                        strokeWidth={2}
+                    />
                 </div>
-                <div
-                    className={cn(
-                        "flex justify-center items-center w-6 h-6 rounded-full transition-transform duration-300",
-                        isDark
-                            ? "bg-transparent"
-                            : "transform -translate-x-8"
-                    )}
-                >
-                    {isDark ? (
-                        <Sun
-                            className="w-4 h-4 text-gray-500"
-                            strokeWidth={1.5}
-                        />
-                    ) : (
-                        <Moon
-                            className="w-4 h-4 text-black"
-                            strokeWidth={1.5}
-                        />
-                    )}
+                <div className="flex justify-center items-center w-6 h-6 z-10">
+                    <Moon
+                        className={cn(
+                            "w-4 h-4 transition-colors duration-300",
+                            isDark ? "text-blue-400" : "text-zinc-400"
+                        )}
+                        strokeWidth={2}
+                    />
                 </div>
             </div>
+            <span
+                className={cn(
+                    "absolute top-1 left-1 w-6 h-6 rounded-full shadow-sm transition-transform duration-300 bg-background",
+                    isDark ? "translate-x-8" : "translate-x-0"
+                )}
+            />
         </div>
     )
 }

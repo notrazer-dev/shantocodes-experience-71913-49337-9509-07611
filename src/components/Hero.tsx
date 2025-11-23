@@ -9,12 +9,24 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { toast } from "sonner";
-// import heroBackground from "@/assets/hero-background.jpg";
+import StarBorder from "@/components/ui/star-border";
+
+import { useThemeColor } from "@/hooks/use-theme-color";
 
 const Hero = () => {
   const [isEmailSheetOpen, setIsEmailSheetOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const email = "shantojoseph23@gmail.com";
+  const { themeColor } = useThemeColor();
+
+  const colorMap = {
+    green: "hsl(120, 61%, 34%)",
+    blue: "hsl(210, 100%, 45%)",
+    purple: "hsl(270, 70%, 45%)",
+    orange: "hsl(30, 100%, 45%)",
+    pink: "hsl(330, 70%, 50%)",
+  };
+  const starColor = colorMap[themeColor] || "cyan";
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -32,18 +44,20 @@ const Hero = () => {
   };
 
   return (
-    <section 
-      id="home" 
+    <section
+      id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{
-        // backgroundImage: `url(${heroBackground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
       {/* Overlay gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background/95"></div>
-      
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(to bottom, hsl(var(--background) / 0.2) 0%, transparent 40%, transparent 70%, hsl(var(--background)) 100%)' }}
+      ></div>
+
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-pixel mb-8 glow-text leading-relaxed">
@@ -55,38 +69,41 @@ const Hero = () => {
         <p className="text-lg md:text-xl text-muted-foreground/80 mb-12 max-w-2xl mx-auto">
           Turning ideas into interactive, dynamic, and scalable digital experiences.
         </p>
-        
+
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          <Button 
-            variant="hero" 
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 items-center">
+          <Button
+            variant="hero"
             size="lg"
             onClick={() => scrollToSection("projects")}
           >
             View My Work
           </Button>
-          <Button 
-            variant="outlineHero" 
-            size="lg"
+          <StarBorder
+            as="button"
+            className="rounded-md"
+            innerClassName="py-[10px] px-8 text-sm rounded-md"
+            color={starColor}
+            speed="5s"
             onClick={() => scrollToSection("contact")}
           >
             Get In Touch
-          </Button>
+          </StarBorder>
         </div>
-        
+
         {/* Social Links */}
         <div className="flex gap-6 justify-center mb-16">
-          <a 
-            href="https://github.com/shanto-joseph" 
-            target="_blank" 
+          <a
+            href="https://github.com/shanto-joseph"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary transition-colors duration-300"
           >
             <Github className="w-6 h-6" />
           </a>
-          <a 
-            href="https://www.linkedin.com/in/shanto-joseph" 
-            target="_blank" 
+          <a
+            href="https://www.linkedin.com/in/shanto-joseph"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary transition-colors duration-300"
           >
@@ -100,7 +117,7 @@ const Hero = () => {
           </button>
         </div>
       </div>
-      
+
       {/* Scroll indicator */}
       <button
         onClick={() => scrollToSection("about")}
@@ -141,8 +158,8 @@ const Hero = () => {
                 </>
               )}
             </Button>
-            <Button 
-              className="w-full" 
+            <Button
+              className="w-full"
               variant="default"
               onClick={() => {
                 setIsEmailSheetOpen(false);
