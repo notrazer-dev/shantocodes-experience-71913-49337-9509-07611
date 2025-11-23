@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type ThemeColor = "green" | "blue" | "purple" | "orange" | "pink";
+export type ThemeColor = "green" | "blue" | "purple" | "orange" | "pink" | "red";
 
 interface ThemeColorState {
   themeColor: ThemeColor;
@@ -29,6 +29,10 @@ const colorThemes = {
   pink: {
     light: { primary: "330 70% 50%", accent: "330 70% 50%", ring: "330 70% 50%" },
     dark: { primary: "330 70% 55%", accent: "330 70% 55%", ring: "330 70% 55%" }
+  },
+  red: {
+    light: { primary: "0 72% 51%", accent: "0 72% 51%", ring: "0 72% 51%" },
+    dark: { primary: "0 72% 51%", accent: "0 72% 51%", ring: "0 72% 51%" }
   }
 };
 

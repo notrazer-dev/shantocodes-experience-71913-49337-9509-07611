@@ -66,6 +66,10 @@ const VantaBackground = () => {
             pink: {
                 light: { highlight: 0xff69b4, midtone: 0xffb6c1, lowlight: 0xff1493 },
                 dark: { highlight: 0xff1493, midtone: 0x8b008b, lowlight: 0x5c005c }
+            },
+            red: {
+                light: { highlight: 0xff0000, midtone: 0xff6b6b, lowlight: 0xdc143c },
+                dark: { highlight: 0xdc143c, midtone: 0x8b0000, lowlight: 0x5c0000 }
             }
         };
 

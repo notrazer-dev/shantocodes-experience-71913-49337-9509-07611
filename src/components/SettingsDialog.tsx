@@ -19,6 +19,7 @@ const colorOptions: { name: string; value: ThemeColor; color: string }[] = [
   { name: "Orange", value: "orange", color: "hsl(30 100% 45%)" },
   { name: "Purple", value: "purple", color: "hsl(270 70% 45%)" },
   { name: "Pink", value: "pink", color: "hsl(330 70% 50%)" },
+  { name: "Red", value: "red", color: "hsl(0 72% 51%)" },
 ];
 
 interface SettingsDialogProps {

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Github, Linkedin, Mail, Copy } from "lucide-react";
+import { Github, Linkedin, Mail, Copy, MapPin } from "lucide-react";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import emailjs from "@emailjs/browser";
@@ -162,6 +162,10 @@ const Contact = () => {
                   <Linkedin className="w-5 h-5" />
                   <span>linkedin.com/in/shantojoseph</span>
                 </a>
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <MapPin className="w-5 h-5" />
+                  <span>Ernakulam, India</span>
+                </div>
               </div>
             </div>
 

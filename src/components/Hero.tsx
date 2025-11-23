@@ -25,6 +25,7 @@ const Hero = () => {
     purple: "hsl(270, 70%, 45%)",
     orange: "hsl(30, 100%, 45%)",
     pink: "hsl(330, 70%, 50%)",
+    red: "hsl(0, 72%, 51%)",
   };
   const starColor = colorMap[themeColor] || "cyan";
 
