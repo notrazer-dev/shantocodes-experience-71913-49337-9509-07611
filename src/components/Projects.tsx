@@ -1,8 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { ExternalLink, Github, ChevronLeft, ChevronRight, Eye, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import projectsData from "@/data/projects.json";
 import {
   Carousel,
   CarouselContent,
@@ -12,20 +11,35 @@ import {
 } from "@/components/ui/carousel";
 import { useState } from "react";
 import { ProjectDetails } from "@/components/ProjectDetails";
+import { useProjects } from "@/hooks/useProjects";
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<any>(null);
+  const { projects, loading, error } = useProjects();
 
-  const getProjectImage = (imageName: string) => {
-    return new URL(`../assets/${imageName}`, import.meta.url).href;
-  };
+  const featuredProjects = projects.filter(project => project.featured);
 
-  const featuredProjects = projectsData.projects
-    .filter(project => project.featured)
-    .map(project => ({
-      ...project,
-      image: getProjectImage(project.image)
-    }));
+  if (loading) {
+    return (
+      <section id="projects" className="py-20 px-4 bg-background">
+        <div className="container mx-auto max-w-6xl flex items-center justify-center min-h-[400px]">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="projects" className="py-20 px-4 bg-background">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center text-destructive">
+            <p>Failed to load projects. Please try again later.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>

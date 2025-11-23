@@ -9,6 +9,8 @@ import { useThemeColor, ThemeColorProvider } from "@/hooks/use-theme-color";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Projects from "./pages/Projects";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +34,8 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/razer" element={<AdminLogin />} />
+          <Route path="/razer/dashboard" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -40,7 +44,7 @@ function AppContent() {
   );
 }
 
-const App = () => (                                                                                                                                                                                                                                                                                                                                       
+const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <ThemeColorProvider>
