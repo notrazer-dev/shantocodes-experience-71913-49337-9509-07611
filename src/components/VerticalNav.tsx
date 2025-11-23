@@ -62,7 +62,7 @@ export function VerticalNav() {
 
   return (
     <TooltipProvider>
-      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-2 bg-card/75 backdrop-blur-lg border border-border/40 py-4 px-2 rounded-2xl shadow-[0_8px_32px_hsl(0_0%_0%_/_0.15)]">
+      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-2 bg-card/75 backdrop-blur-lg py-4 px-2 rounded-2xl shadow-[0_8px_32px_hsl(0_0%_0%_/_0.15)]">
         {displayNavItems.map((item) => {
           const isActive = activeSection === item.id;
           return (
@@ -85,9 +85,6 @@ export function VerticalNav() {
                       }`}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
-                  {isActive && (
-                    <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-l-full" />
-                  )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right" className="font-medium">
@@ -98,7 +95,7 @@ export function VerticalNav() {
         })}
 
         {/* Settings */}
-        <div className="mt-4 pt-4 border-t border-border/50">
+        <div className="mt-4 pt-4">
           <Tooltip
             delayDuration={0}
             open={(settingsOpen || !isTooltipEnabled) ? false : undefined}

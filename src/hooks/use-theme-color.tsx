@@ -34,8 +34,8 @@ const colorThemes = {
 
 export function ThemeColorProvider({ children }: { children: React.ReactNode }) {
   const [themeColor, setThemeColorState] = useState<ThemeColor>(() => {
-    const stored = localStorage.getItem("theme-color");
-    return (stored as ThemeColor) || "green";
+    const stored = localStorage.getItem("theme-color") as ThemeColor;
+    return (stored && colorThemes[stored]) ? stored : "green";
   });
 
   const applyTheme = (color: ThemeColor) => {

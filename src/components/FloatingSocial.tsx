@@ -27,7 +27,7 @@ const FloatingSocial = () => {
   return (
     <TooltipProvider>
       <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 animate-fade-in hidden md:block">
-        <div className="bg-card border-l border-t border-b border-border/20 rounded-l-lg p-2 flex flex-col gap-3 shadow-lg">
+        <div className="bg-card border-border/20 rounded-l-lg p-2 flex flex-col gap-3 shadow-lg">
           {socials.map((social) => {
             const Icon = social.icon;
             return (

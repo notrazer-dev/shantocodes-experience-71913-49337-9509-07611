@@ -55,7 +55,7 @@ const Hero = () => {
       {/* Overlay gradient */}
       <div
         className="absolute inset-0"
-        style={{ background: 'linear-gradient(to bottom, hsl(var(--background) / 0.2) 0%, transparent 40%, transparent 70%, hsl(var(--background)) 100%)' }}
+        style={{ background: 'linear-gradient(to bottom, hsl(var(--background) / 0.2) 0%, transparent 30%, transparent 70%, hsl(var(--background)) 100%)' }}
       ></div>
 
       {/* Content */}

@@ -14,8 +14,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="py-20 px-4"
-      style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--background)) 85%, hsl(var(--background) / 0.6) 100%)' }}
+      className="py-20 px-4 bg-background"
     >
       <div className="container mx-auto max-w-4xl">
         <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">

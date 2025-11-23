@@ -24,7 +24,7 @@ const Projects = () => {
     }));
 
   return (
-    <section id="projects" className="py-20 px-4" style={{ background: 'linear-gradient(to bottom, hsl(var(--background) / 0.6) 0%, transparent 20%)' }}>
+    <section id="projects" className="py-20 px-4 bg-background">
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
           Featured Projects

@@ -38,24 +38,24 @@ const Projects = () => {
                 Back to Home
               </Button>
             </Link>
-            
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
               All Projects
             </h1>
             <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
               A complete collection of my work, from web applications to AI-powered solutions
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {allProjects.map((project, index) => (
-                <Card 
+                <Card
                   key={project.id}
                   className="glass-card border-border/50 overflow-hidden group hover:shadow-2xl transition-all duration-300 animate-fade-in h-full"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={project.image} 
+                    <img
+                      src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
@@ -66,18 +66,18 @@ const Projects = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   <CardHeader>
                     <CardTitle className="text-xl">{project.title}</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       {project.description}
                     </CardDescription>
                   </CardHeader>
-                  
+
                   <CardContent>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {project.tech.map((tech) => (
-                        <span 
+                        <span
                           key={tech}
                           className="px-2 py-1 bg-primary/10 text-primary text-xs rounded"
                         >
@@ -85,11 +85,11 @@ const Projects = () => {
                         </span>
                       ))}
                     </div>
-                    
+
                     <div className="flex gap-3">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
+                      <Button
+                        variant="outline"
+                        size="sm"
                         className="flex-1"
                         asChild
                       >
@@ -98,9 +98,9 @@ const Projects = () => {
                           Code
                         </a>
                       </Button>
-                      <Button 
-                        variant="default" 
-                        size="sm" 
+                      <Button
+                        variant="default"
+                        size="sm"
                         className="flex-1"
                         asChild
                       >

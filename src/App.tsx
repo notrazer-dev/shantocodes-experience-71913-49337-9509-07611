@@ -40,7 +40,7 @@ function AppContent() {
   );
 }
 
-const App = () => (
+const App = () => (                                                                                                                                                                                                                                                                                                                                       
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <ThemeColorProvider>
