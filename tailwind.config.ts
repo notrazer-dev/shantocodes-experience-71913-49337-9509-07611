@@ -129,6 +129,7 @@ export default {
         "glow": "glow 2s ease-in-out infinite",
         "star-movement-bottom": "star-movement-bottom linear infinite alternate",
         "star-movement-top": "star-movement-top linear infinite alternate",
+        "shine": "shine var(--duration) infinite linear",
       },
 
     },
