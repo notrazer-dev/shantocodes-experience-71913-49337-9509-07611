@@ -23,11 +23,18 @@ export function useProjects() {
             try {
                 const { data, error } = await supabase
                     .from('projects')
-                    .select('*')
+                    .select('*, project_images(url)')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
-                setProjects(data || []);
+
+                // Transform the data to match the Project interface
+                const transformedData = data?.map(project => ({
+                    ...project,
+                    images: project.project_images?.map((img: any) => img.url) || []
+                })) || [];
+
+                setProjects(transformedData);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to fetch projects');
                 console.error('Error fetching projects:', err);

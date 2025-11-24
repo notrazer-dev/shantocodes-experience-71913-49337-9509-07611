@@ -26,11 +26,10 @@ interface SettingsDialogProps {
   variant?: "icon" | "text";
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  children?: React.ReactNode;
 }
 
-
-
-export function SettingsDialog({ variant = "icon", open, onOpenChange }: SettingsDialogProps) {
+export function SettingsDialog({ variant = "icon", open, onOpenChange, children }: SettingsDialogProps) {
   const { theme, setTheme } = useTheme();
   const { themeColor, setThemeColor } = useThemeColor();
 
@@ -39,7 +38,9 @@ export function SettingsDialog({ variant = "icon", open, onOpenChange }: Setting
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        {variant === "icon" ? (
+        {children ? (
+          children
+        ) : variant === "icon" ? (
           <Button
             variant="ghost"
             size="icon"

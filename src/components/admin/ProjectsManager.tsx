@@ -6,10 +6,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Plus, Pencil, Trash2, Loader2, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Search, ImagePlus, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { useProjects } from "@/hooks/useProjects";
+
+const COMMON_TECH = [
+    "React", "TypeScript", "Node.js", "Python", "Django", "PostgreSQL",
+    "MongoDB", "AWS", "Docker", "Next.js", "Tailwind CSS", "GraphQL",
+    "Firebase", "Supabase", "Vue.js", "Angular", "Java", "Spring Boot",
+    "C++", "C#", ".NET", "Flutter", "React Native", "Swift", "Kotlin",
+    "Redis", "Kubernetes", "Terraform", "Go", "Rust", "PHP", "Laravel"
+];
 
 const ProjectsManager = () => {
     const { projects, loading, error } = useProjects();
@@ -17,12 +25,13 @@ const ProjectsManager = () => {
     const [editingProject, setEditingProject] = useState<any>(null);
     const [submitting, setSubmitting] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [techInput, setTechInput] = useState("");
 
     const [formData, setFormData] = useState({
         title: "",
         description: "",
         image: "",
-        images: "",
+        images: [] as string[],
         tech: "",
         github: "",
         live: "",
@@ -34,13 +43,14 @@ const ProjectsManager = () => {
             title: "",
             description: "",
             image: "",
-            images: "",
+            images: [],
             tech: "",
             github: "",
             live: "",
             featured: false,
         });
         setEditingProject(null);
+        setTechInput("");
     };
 
     const handleEdit = (project: any) => {
@@ -49,7 +59,7 @@ const ProjectsManager = () => {
             title: project.title,
             description: project.description,
             image: project.image,
-            images: project.images?.join(", ") || "",
+            images: project.images || [],
             tech: project.tech.join(", "),
             github: project.github,
             live: project.live || "",
@@ -63,38 +73,74 @@ const ProjectsManager = () => {
         setSubmitting(true);
 
         try {
+            // Prepare project data (excluding images array which goes to a separate table)
             const projectData = {
                 title: formData.title,
                 description: formData.description,
                 image: formData.image,
-                images: formData.images ? formData.images.split(",").map(s => s.trim()) : null,
-                tech: formData.tech.split(",").map(s => s.trim()),
+                tech: formData.tech.split(",").map(s => s.trim()).filter(s => s !== ""),
                 github: formData.github,
                 live: formData.live || null,
                 featured: formData.featured,
             };
 
+            let projectId;
+
             if (editingProject) {
-                const { error } = await supabase
+                projectId = editingProject.id;
+
+                // Update project details
+                const { error: updateError } = await supabase
                     .from("projects")
                     .update(projectData)
-                    .eq("id", editingProject.id);
+                    .eq("id", projectId);
 
-                if (error) throw error;
+                if (updateError) throw updateError;
+
+                // Delete existing images to replace with new ones (simple sync strategy)
+                const { error: deleteError } = await supabase
+                    .from("project_images")
+                    .delete()
+                    .eq("project_id", projectId);
+
+                if (deleteError) throw deleteError;
+
                 toast.success("Project updated successfully!");
             } else {
-                const { error } = await supabase
+                // Insert new project
+                const { data, error: insertError } = await supabase
                     .from("projects")
-                    .insert([projectData]);
+                    .insert([projectData])
+                    .select()
+                    .single();
 
-                if (error) throw error;
+                if (insertError) throw insertError;
+                projectId = data.id;
+
                 toast.success("Project created successfully!");
+            }
+
+            // Insert new images if any
+            const imagesToInsert = formData.images
+                .filter(img => img.trim() !== "")
+                .map(url => ({
+                    project_id: projectId,
+                    url: url.trim()
+                }));
+
+            if (imagesToInsert.length > 0) {
+                const { error: imagesError } = await supabase
+                    .from("project_images")
+                    .insert(imagesToInsert);
+
+                if (imagesError) throw imagesError;
             }
 
             setOpen(false);
             resetForm();
             window.location.reload();
         } catch (error: any) {
+            console.error("Error saving project:", error);
             toast.error(error.message || "Failed to save project");
         } finally {
             setSubmitting(false);
@@ -118,6 +164,30 @@ const ProjectsManager = () => {
         }
     };
 
+    const addImageInput = () => {
+        setFormData({ ...formData, images: [...formData.images, ""] });
+    };
+
+    const removeImageInput = (index: number) => {
+        const newImages = [...formData.images];
+        newImages.splice(index, 1);
+        setFormData({ ...formData, images: newImages });
+    };
+
+    const updateImageInput = (index: number, value: string) => {
+        const newImages = [...formData.images];
+        newImages[index] = value;
+        setFormData({ ...formData, images: newImages });
+    };
+
+    const addTech = (tech: string) => {
+        const currentTechs = formData.tech.split(",").map(s => s.trim()).filter(s => s !== "");
+        if (!currentTechs.includes(tech)) {
+            const newTech = currentTechs.length > 0 ? `${formData.tech}, ${tech}` : tech;
+            setFormData({ ...formData, tech: newTech });
+        }
+    };
+
     if (loading) {
         return (
             <div className="flex items-center justify-center py-8">
@@ -138,6 +208,11 @@ const ProjectsManager = () => {
     const filteredProjects = projects.filter(project =>
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Filter tech suggestions
+    const techSuggestions = COMMON_TECH.filter(tech =>
+        !formData.tech.toLowerCase().includes(tech.toLowerCase())
     );
 
     return (
@@ -201,17 +276,41 @@ const ProjectsManager = () => {
                                         required
                                     />
                                 </div>
+
                                 <div className="space-y-2">
-                                    <Label htmlFor="images">Additional Images (comma-separated URLs)</Label>
-                                    <Input
-                                        id="images"
-                                        value={formData.images}
-                                        onChange={(e) => setFormData({ ...formData, images: e.target.value })}
-                                        placeholder="https://image1.jpg, https://image2.jpg"
-                                    />
+                                    <div className="flex items-center justify-between">
+                                        <Label>Additional Images</Label>
+                                        <Button type="button" variant="outline" size="sm" onClick={addImageInput}>
+                                            <ImagePlus className="w-3 h-3 mr-1" />
+                                            Add Image
+                                        </Button>
+                                    </div>
+                                    <div className="space-y-2">
+                                        {formData.images.map((img, index) => (
+                                            <div key={index} className="flex gap-2">
+                                                <Input
+                                                    value={img}
+                                                    onChange={(e) => updateImageInput(index, e.target.value)}
+                                                    placeholder={`Image URL ${index + 1}`}
+                                                />
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => removeImageInput(index)}
+                                                >
+                                                    <X className="w-4 h-4 text-destructive" />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                        {formData.images.length === 0 && (
+                                            <p className="text-xs text-muted-foreground italic">No additional images added.</p>
+                                        )}
+                                    </div>
                                 </div>
+
                                 <div className="space-y-2">
-                                    <Label htmlFor="tech">Technologies (comma-separated) *</Label>
+                                    <Label htmlFor="tech">Technologies *</Label>
                                     <Input
                                         id="tech"
                                         value={formData.tech}
@@ -219,7 +318,20 @@ const ProjectsManager = () => {
                                         placeholder="React, TypeScript, Node.js"
                                         required
                                     />
+                                    <div className="flex flex-wrap gap-1 mt-2">
+                                        {techSuggestions.slice(0, 10).map((tech) => (
+                                            <button
+                                                key={tech}
+                                                type="button"
+                                                onClick={() => addTech(tech)}
+                                                className="px-2 py-1 text-xs bg-secondary hover:bg-secondary/80 rounded-full transition-colors"
+                                            >
+                                                + {tech}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
+
                                 <div className="space-y-2">
                                     <Label htmlFor="github">GitHub URL *</Label>
                                     <Input

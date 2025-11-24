@@ -3,17 +3,24 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Plus, FolderKanban, Code } from "lucide-react";
+import { LogOut, Plus, FolderKanban, Code, Settings } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import ProjectsManager from "@/components/admin/ProjectsManager";
 import SkillsManager from "@/components/admin/SkillsManager";
+import { useProjects } from "@/hooks/useProjects";
+import { useSkills } from "@/hooks/useSkills";
+import { SettingsDialog } from "@/components/SettingsDialog";
 
 const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
+
+    // Fetch data for stats
+    const { projects } = useProjects();
+    const { skills } = useSkills();
 
     // Get active tab from URL or default to 'projects'
     const activeTab = searchParams.get('tab') || 'projects';
@@ -61,8 +68,10 @@ const AdminDashboard = () => {
         );
     }
 
+    const featuredProjectsCount = projects.filter((p: any) => p.featured).length;
+
     return (
-        <div className="min-h-screen bg-background p-4 md:p-8">
+        <div className="min-h-screen bg-transparent p-4 md:p-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
@@ -72,10 +81,17 @@ const AdminDashboard = () => {
                             Manage your portfolio content
                         </p>
                     </div>
-                    <Button variant="outline" onClick={handleLogout}>
-                        <LogOut className="w-4 h-4 mr-2" />
-                        Logout
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <SettingsDialog>
+                            <Button variant="outline" size="icon">
+                                <Settings className="w-4 h-4" />
+                            </Button>
+                        </SettingsDialog>
+                        <Button variant="outline" onClick={handleLogout}>
+                            <LogOut className="w-4 h-4 mr-2" />
+                            Logout
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Stats Cards */}
@@ -88,7 +104,7 @@ const AdminDashboard = () => {
                             <FolderKanban className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">-</div>
+                            <div className="text-2xl font-bold">{projects.length}</div>
                             <p className="text-xs text-muted-foreground">
                                 Manage your projects
                             </p>
@@ -102,7 +118,7 @@ const AdminDashboard = () => {
                             <Code className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">-</div>
+                            <div className="text-2xl font-bold">{skills.length}</div>
                             <p className="text-xs text-muted-foreground">
                                 Manage your skills
                             </p>
@@ -116,7 +132,7 @@ const AdminDashboard = () => {
                             <Plus className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">-</div>
+                            <div className="text-2xl font-bold">{featuredProjectsCount}</div>
                             <p className="text-xs text-muted-foreground">
                                 Highlighted on homepage
                             </p>

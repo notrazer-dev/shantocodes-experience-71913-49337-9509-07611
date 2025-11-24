@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Plus, Pencil, Trash2, Loader2, Search } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Plus, Pencil, Trash2, Loader2, Search, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { useSkills } from "@/hooks/useSkills";
@@ -15,6 +16,7 @@ const SkillsManager = () => {
     const [editingSkill, setEditingSkill] = useState<any>(null);
     const [submitting, setSubmitting] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedSkills, setSelectedSkills] = useState<number[]>([]);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -92,6 +94,40 @@ const SkillsManager = () => {
         }
     };
 
+    const handleBulkDelete = async () => {
+        if (!confirm(`Are you sure you want to delete ${selectedSkills.length} skills?`)) return;
+
+        try {
+            const { error } = await supabase
+                .from("skills")
+                .delete()
+                .in("id", selectedSkills);
+
+            if (error) throw error;
+            toast.success("Skills deleted successfully!");
+            setSelectedSkills([]);
+            window.location.reload();
+        } catch (error: any) {
+            toast.error(error.message || "Failed to delete skills");
+        }
+    };
+
+    const toggleSelectAll = () => {
+        if (selectedSkills.length === filteredSkills.length) {
+            setSelectedSkills([]);
+        } else {
+            setSelectedSkills(filteredSkills.map(s => s.id));
+        }
+    };
+
+    const toggleSelect = (id: number) => {
+        if (selectedSkills.includes(id)) {
+            setSelectedSkills(selectedSkills.filter(s => s !== id));
+        } else {
+            setSelectedSkills([...selectedSkills, id]);
+        }
+    };
+
     if (loading) {
         return (
             <div className="flex items-center justify-center py-8">
@@ -114,17 +150,32 @@ const SkillsManager = () => {
     );
 
     return (
-        <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h2 className="text-2xl font-bold">Manage Skills</h2>
-                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                    <div className="relative flex-1 sm:flex-initial">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-card/50 p-4 rounded-lg border backdrop-blur-sm">
+                <div>
+                    <h2 className="text-2xl font-bold tracking-tight">Manage Skills</h2>
+                    <p className="text-sm text-muted-foreground">Add and manage your technical expertise</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto items-center">
+                    {selectedSkills.length > 0 && (
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={handleBulkDelete}
+                            className="animate-in fade-in slide-in-from-right-4"
+                        >
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Delete ({selectedSkills.length})
+                        </Button>
+                    )}
+
+                    <div className="relative flex-1 sm:flex-initial group">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                         <Input
                             placeholder="Search skills..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9 w-full sm:w-[250px]"
+                            className="pl-9 w-full sm:w-[250px] bg-background/50 focus:bg-background transition-all"
                         />
                     </div>
                     <Dialog open={open} onOpenChange={(isOpen) => {
@@ -132,7 +183,7 @@ const SkillsManager = () => {
                         if (!isOpen) resetForm();
                     }}>
                         <DialogTrigger asChild>
-                            <Button>
+                            <Button className="shadow-lg hover:shadow-primary/20 transition-all">
                                 <Plus className="w-4 h-4 mr-2" />
                                 Add Skill
                             </Button>
@@ -167,7 +218,7 @@ const SkillsManager = () => {
                                         Paste the full URL to the skill icon image
                                     </p>
                                     {formData.icon && (
-                                        <div className="flex items-center gap-2 p-2 border rounded">
+                                        <div className="flex items-center gap-2 p-2 border rounded bg-muted/50">
                                             <img src={formData.icon} alt="Preview" className="w-8 h-8 object-contain" />
                                             <span className="text-sm text-muted-foreground">Icon Preview</span>
                                         </div>
@@ -194,48 +245,92 @@ const SkillsManager = () => {
                 </div>
             </div>
 
+            {filteredSkills.length > 0 && (
+                <div className="flex items-center gap-2 px-1">
+                    <Checkbox
+                        id="select-all"
+                        checked={selectedSkills.length === filteredSkills.length && filteredSkills.length > 0}
+                        onCheckedChange={toggleSelectAll}
+                    />
+                    <Label htmlFor="select-all" className="text-sm text-muted-foreground cursor-pointer">
+                        Select All ({filteredSkills.length})
+                    </Label>
+                </div>
+            )}
+
             {filteredSkills.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     {filteredSkills.map((skill: any) => (
-                        <Card key={skill.id}>
-                            <CardHeader>
-                                <div className="flex items-center gap-3">
-                                    {skill.icon && (
-                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center p-2">
-                                            <img src={skill.icon} alt={skill.name} className="w-full h-full object-contain" />
-                                        </div>
-                                    )}
-                                    <CardTitle className="text-lg">{skill.name}</CardTitle>
-                                </div>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex gap-2">
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        className="flex-1"
-                                        onClick={() => handleEdit(skill)}
-                                    >
-                                        <Pencil className="w-3 h-3 mr-1" />
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        variant="destructive"
-                                        size="sm"
-                                        className="flex-1"
-                                        onClick={() => handleDelete(skill.id)}
-                                    >
-                                        <Trash2 className="w-3 h-3 mr-1" />
-                                        Delete
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
+                        <div
+                            key={skill.id}
+                            className={`group relative flex flex-col items-center justify-center p-6 bg-card hover:bg-accent/50 border rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden ${selectedSkills.includes(skill.id) ? 'ring-2 ring-primary bg-accent/50' : ''}`}
+                            onClick={() => toggleSelect(skill.id)}
+                        >
+                            {/* Selection Checkbox */}
+                            <div className="absolute top-3 left-3 z-20" onClick={(e) => e.stopPropagation()}>
+                                <Checkbox
+                                    checked={selectedSkills.includes(skill.id)}
+                                    onCheckedChange={() => toggleSelect(skill.id)}
+                                />
+                            </div>
+
+                            {/* Actions Overlay */}
+                            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground shadow-sm"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleEdit(skill);
+                                    }}
+                                >
+                                    <Pencil className="w-3.5 h-3.5" />
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 bg-background/80 backdrop-blur-sm hover:bg-destructive hover:text-destructive-foreground shadow-sm"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDelete(skill.id);
+                                    }}
+                                >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                </Button>
+                            </div>
+
+                            {/* Icon Container */}
+                            <div className="w-16 h-16 mb-4 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent flex items-center justify-center p-3 group-hover:scale-110 group-hover:from-primary/20 transition-all duration-300 ring-1 ring-primary/10 group-hover:ring-primary/30">
+                                {skill.icon ? (
+                                    <img src={skill.icon} alt={skill.name} className="w-full h-full object-contain filter drop-shadow-sm" />
+                                ) : (
+                                    <div className="w-8 h-8 bg-primary/20 rounded-full" />
+                                )}
+                            </div>
+
+                            {/* Skill Name */}
+                            <h3 className="font-semibold text-sm sm:text-base text-center text-foreground/90 group-hover:text-primary transition-colors">
+                                {skill.name}
+                            </h3>
+                        </div>
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-12 text-muted-foreground">
-                    <p>{searchQuery ? `No skills found matching "${searchQuery}"` : "No skills yet. Click \"Add Skill\" to create one."}</p>
+                <div className="flex flex-col items-center justify-center py-16 text-center border-2 border-dashed rounded-xl bg-card/50">
+                    <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-4">
+                        <Search className="w-6 h-6 text-muted-foreground" />
+                    </div>
+                    <h3 className="text-lg font-semibold">No skills found</h3>
+                    <p className="text-muted-foreground max-w-sm mt-1">
+                        {searchQuery ? `No skills matching "${searchQuery}"` : "Get started by adding your first skill."}
+                    </p>
+                    {!searchQuery && (
+                        <Button variant="outline" className="mt-4" onClick={() => setOpen(true)}>
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Skill
+                        </Button>
+                    )}
                 </div>
             )}
         </div>
