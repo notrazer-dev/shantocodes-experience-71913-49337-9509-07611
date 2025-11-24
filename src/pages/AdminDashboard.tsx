@@ -39,6 +39,15 @@ const AdminDashboard = () => {
                 return;
             }
 
+            // Whitelist check
+            const allowedEmails = (import.meta.env.VITE_ADMIN_EMAILS || "").split(",").map((e: string) => e.trim());
+            if (user.email && !allowedEmails.includes(user.email)) {
+                await supabase.auth.signOut();
+                toast.error("Unauthorized access. Your email is not whitelisted.");
+                navigate("/razer");
+                return;
+            }
+
             setUser(user);
         } catch (error) {
             navigate("/razer");
@@ -75,23 +84,43 @@ const AdminDashboard = () => {
         <div className="min-h-screen bg-transparent p-4 md:p-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-                        <p className="text-muted-foreground mt-1">
+                        <h1 className="text-2xl sm:text-3xl font-bold">Admin Dashboard</h1>
+                        <p className="text-muted-foreground mt-1 text-sm">
                             Manage your portfolio content
                         </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <SettingsDialog>
-                            <Button variant="outline" size="icon">
-                                <Settings className="w-4 h-4" />
+                    <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end flex-wrap">
+                        {user && (
+                            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 rounded-lg bg-card/50 backdrop-blur-sm border border-primary/20">
+                                <img
+                                    src={user.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email || 'User')}&background=random`}
+                                    alt="Profile"
+                                    className="w-8 h-8 rounded-full ring-2 ring-primary/20"
+                                />
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-medium">{user.user_metadata?.full_name || user.email}</span>
+                                    {user.user_metadata?.full_name && (
+                                        <span className="text-xs text-muted-foreground">{user.email}</span>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex items-center gap-2">
+                            <SettingsDialog>
+                                <Button variant="outline" size="icon">
+                                    <Settings className="w-4 h-4" />
+                                </Button>
+                            </SettingsDialog>
+                            <Button variant="outline" onClick={handleLogout} className="hidden sm:flex">
+                                <LogOut className="w-4 h-4 mr-2" />
+                                Logout
                             </Button>
-                        </SettingsDialog>
-                        <Button variant="outline" onClick={handleLogout}>
-                            <LogOut className="w-4 h-4 mr-2" />
-                            Logout
-                        </Button>
+                            <Button variant="outline" size="icon" onClick={handleLogout} className="sm:hidden">
+                                <LogOut className="w-4 h-4" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
 
