@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,6 +13,10 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // Get active tab from URL or default to 'projects'
+    const activeTab = searchParams.get('tab') || 'projects';
 
     useEffect(() => {
         checkUser();
@@ -43,6 +47,10 @@ const AdminDashboard = () => {
         } catch (error: any) {
             toast.error("Logout failed");
         }
+    };
+
+    const handleTabChange = (value: string) => {
+        setSearchParams({ tab: value });
     };
 
     if (loading) {
@@ -117,7 +125,7 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Content Tabs */}
-                <Tabs defaultValue="projects" className="space-y-4">
+                <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4">
                     <TabsList>
                         <TabsTrigger value="projects">Projects</TabsTrigger>
                         <TabsTrigger value="skills">Skills</TabsTrigger>

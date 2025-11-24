@@ -4,9 +4,7 @@ import { supabase } from '@/lib/supabase';
 export interface Skill {
     id: number;
     name: string;
-    category: string;
     icon?: string;
-    level?: number;
 }
 
 export function useSkills() {
@@ -20,7 +18,7 @@ export function useSkills() {
                 const { data, error } = await supabase
                     .from('skills')
                     .select('*')
-                    .order('category', { ascending: true });
+                    .order('name', { ascending: true });
 
                 if (error) throw error;
                 setSkills(data || []);

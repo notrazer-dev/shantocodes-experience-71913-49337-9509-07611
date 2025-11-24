@@ -1,4 +1,4 @@
-import skillsData from "@/data/skills.json";
+import { useSkills } from "@/hooks/useSkills";
 import {
   Carousel,
   CarouselContent,
@@ -8,7 +8,46 @@ import {
 } from "@/components/ui/carousel";
 
 const Skills = () => {
-  const skills = skillsData.skills;
+  const { skills, loading, error } = useSkills();
+
+  if (loading) {
+    return (
+      <section
+        id="skills"
+        className="py-20 px-4 bg-background"
+      >
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+            Skills & Expertise
+          </h2>
+          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+            Loading skills...
+          </p>
+          <div className="flex justify-center items-center min-h-[200px]">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section
+        id="skills"
+        className="py-20 px-4 bg-background"
+      >
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+            Skills & Expertise
+          </h2>
+          <p className="text-destructive text-center mb-12 max-w-2xl mx-auto">
+            Error loading skills: {error}
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -38,12 +77,12 @@ const Skills = () => {
                   <div className="grid grid-cols-4 gap-4">
                     {skills.slice(pageIndex * 16, (pageIndex + 1) * 16).map((skill, index) => (
                       <div
-                        key={skill.name}
+                        key={skill.id}
                         className="flex flex-col items-center justify-center gap-2 hover:scale-105 transition-all duration-300 animate-fade-in"
                         style={{ animationDelay: `${index * 0.05}s` }}
                       >
                         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-2">
-                          <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
+                          <img src={skill.icon || '/placeholder-icon.png'} alt={skill.name} className="w-full h-full object-contain" />
                         </div>
                         <span className="text-[10px] text-center font-medium text-foreground line-clamp-2">
                           {skill.name}
@@ -63,12 +102,12 @@ const Skills = () => {
           {skills.map((skill, index) => {
             return (
               <div
-                key={skill.name}
+                key={skill.id}
                 className="flex flex-col items-center justify-center gap-3 hover:scale-110 transition-all duration-300 animate-fade-in"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors duration-300 p-3">
-                  <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
+                  <img src={skill.icon || '/placeholder-icon.png'} alt={skill.name} className="w-full h-full object-contain" />
                 </div>
                 <span className="text-xs text-center font-medium text-foreground">
                   {skill.name}
