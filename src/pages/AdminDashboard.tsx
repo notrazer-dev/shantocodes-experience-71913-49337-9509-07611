@@ -3,11 +3,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Plus, FolderKanban, Code, Settings } from "lucide-react";
+import { LogOut, Plus, FolderKanban, Code, Settings, BarChart3 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import ProjectsManager from "@/components/admin/ProjectsManager";
 import SkillsManager from "@/components/admin/SkillsManager";
+import AnalyticsManager from "@/components/admin/AnalyticsManager";
 import { useProjects } from "@/hooks/useProjects";
 import { useSkills } from "@/hooks/useSkills";
 import { SettingsDialog } from "@/components/SettingsDialog";
@@ -145,12 +146,16 @@ const AdminDashboard = () => {
                     <TabsList>
                         <TabsTrigger value="projects">Projects</TabsTrigger>
                         <TabsTrigger value="skills">Skills</TabsTrigger>
+                        <TabsTrigger value="analytics">Analytics</TabsTrigger>
                     </TabsList>
                     <TabsContent value="projects" className="space-y-4">
                         <ProjectsManager />
                     </TabsContent>
                     <TabsContent value="skills" className="space-y-4">
                         <SkillsManager />
+                    </TabsContent>
+                    <TabsContent value="analytics" className="space-y-4">
+                        <AnalyticsManager />
                     </TabsContent>
                 </Tabs>
             </div>
