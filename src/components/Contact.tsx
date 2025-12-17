@@ -5,6 +5,7 @@ import { Github, Linkedin, Mail, Copy, MapPin } from "lucide-react";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import emailjs from "@emailjs/browser";
+import { useAppConfig } from "@/hooks/useAppConfig";
 
 const Contact = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -13,6 +14,8 @@ const Contact = () => {
     email: "",
     message: ""
   });
+  const { getConfig } = useAppConfig();
+  const showForm = getConfig('email_form_enabled') === 'true';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,9 +65,9 @@ const Contact = () => {
         </p>
 
         <div
-          className={`grid ${import.meta.env.VITE_EMAIL_FORM === 'true' ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-8 md:gap-12 justify-items-center md:justify-items-stretch max-w-full md:max-w-none`}
+          className={`grid ${showForm ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-8 md:gap-12 justify-items-center md:justify-items-stretch max-w-full md:max-w-none`}
         >
-          {import.meta.env.VITE_EMAIL_FORM === 'true' && (
+          {showForm && (
             <div className="glass-card rounded-2xl p-6 md:p-8 w-full max-w-lg md:max-w-none">
               <form ref={form} onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -125,7 +128,7 @@ const Contact = () => {
           {/* Contact Info */}
           <div
             className={
-              import.meta.env.VITE_EMAIL_FORM === 'true'
+              showForm
                 ? 'space-y-6 md:space-y-8 w-full max-w-lg md:max-w-none'
                 : 'col-span-2 grid md:grid-cols-2 gap-8' // Adjusted classes when form is false
             }

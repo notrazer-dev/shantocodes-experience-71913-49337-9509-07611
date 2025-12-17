@@ -15,13 +15,16 @@ import { useSkills } from "@/hooks/useSkills";
 import { useBlog } from "@/hooks/useBlog";
 import BlogManager from "@/components/admin/BlogManager";
 import ProfileManager from "@/components/admin/ProfileManager";
+import SettingsManager from "@/components/admin/SettingsManager";
 import { SettingsDialog } from "@/components/SettingsDialog";
+import { useAppConfig } from "@/hooks/useAppConfig";
 
 const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
+    const { getConfig, loading: configLoading } = useAppConfig();
 
     // Fetch data for stats
     const { projects } = useProjects();
@@ -33,8 +36,10 @@ const AdminDashboard = () => {
     const activeTab = searchParams.get('tab') || 'projects';
 
     useEffect(() => {
-        checkUser();
-    }, []);
+        if (!configLoading) {
+            checkUser();
+        }
+    }, [configLoading]);
 
     const checkUser = async () => {
         try {
@@ -46,7 +51,12 @@ const AdminDashboard = () => {
             }
 
             // Whitelist check
-            const allowedEmails = (import.meta.env.VITE_ADMIN_EMAILS || "").split(",").map((e: string) => e.trim());
+            const envEmails = (import.meta.env.VITE_ADMIN_EMAILS || "").split(",").map((e: string) => e.trim());
+            const dbEmails = (getConfig('admin_emails') || "").split(",").map((e: string) => e.trim());
+
+            // Allow if in EITHER .env OR db
+            const allowedEmails = [...new Set([...envEmails, ...dbEmails])].filter(Boolean);
+
             if (user.email && !allowedEmails.includes(user.email)) {
                 await supabase.auth.signOut();
                 toast.error("Unauthorized access. Your email is not whitelisted.");
@@ -197,6 +207,7 @@ const AdminDashboard = () => {
                         <TabsTrigger value="skills">Skills</TabsTrigger>
                         <TabsTrigger value="blog">Blog</TabsTrigger>
                         <TabsTrigger value="profile">Profile</TabsTrigger>
+                        <TabsTrigger value="settings">Settings</TabsTrigger>
                         <TabsTrigger value="analytics">Analytics</TabsTrigger>
                     </TabsList>
                     <TabsContent value="projects" className="space-y-4">
@@ -210,6 +221,9 @@ const AdminDashboard = () => {
                     </TabsContent>
                     <TabsContent value="profile" className="space-y-4">
                         <ProfileManager />
+                    </TabsContent>
+                    <TabsContent value="settings" className="space-y-4">
+                        <SettingsManager />
                     </TabsContent>
                     <TabsContent value="analytics" className="space-y-4">
                         <AnalyticsManager />
