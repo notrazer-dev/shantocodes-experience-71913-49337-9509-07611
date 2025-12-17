@@ -1,7 +1,9 @@
 import { Heart, Code } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { profile } = useProfile();
 
   return (
     <footer className="py-8 px-4 bg-transparent">
@@ -9,8 +11,8 @@ const Footer = () => {
         <div className="flex flex-col items-center gap-6 text-center">
           {/* Logo/Name */}
           <div className="space-y-2">
-            <h3 className="text-xl font-pixel glow-text leading-relaxed whitespace-nowrap">Shanto Joseph</h3>
-            <p className="text-muted-foreground text-sm">Full-Stack Developer</p>
+            <h3 className="text-xl font-pixel glow-text leading-relaxed whitespace-nowrap">{profile?.full_name || "Shanto Joseph"}</h3>
+            <p className="text-muted-foreground text-sm">{profile?.role || "Full-Stack Developer"}</p>
           </div>
 
           {/* Quick Links */}
@@ -38,7 +40,7 @@ const Footer = () => {
           {/* Bottom Row */}
           <div className="flex flex-col items-center gap-4 text-sm text-muted-foreground">
             <p className="flex items-center gap-2 whitespace-nowrap">
-              © {currentYear} <span className="font-pixel text-xs whitespace-nowrap">Shanto Joseph</span>
+              © {currentYear} <span className="font-pixel text-xs whitespace-nowrap">{profile?.full_name || "Shanto Joseph"}</span>
             </p>
           </div>
         </div>

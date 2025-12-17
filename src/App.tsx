@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { useThemeColor, ThemeColorProvider } from "@/hooks/use-theme-color";
@@ -11,6 +12,9 @@ import Index from "./pages/Index";
 import Projects from "./pages/Projects";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +38,8 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/razer" element={<AdminLogin />} />
           <Route path="/razer/dashboard" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -46,13 +52,15 @@ function AppContent() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-      <ThemeColorProvider>
-        <TooltipProvider>
-          <AppContent />
-        </TooltipProvider>
-      </ThemeColorProvider>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeColorProvider>
+          <TooltipProvider>
+            <AppContent />
+          </TooltipProvider>
+        </ThemeColorProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 

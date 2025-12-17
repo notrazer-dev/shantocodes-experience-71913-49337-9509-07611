@@ -1,19 +1,24 @@
 import { useState, useEffect, useRef } from "react";
-import { Home, Briefcase, Code, Mail } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Home, Briefcase, Code, Mail, FileText } from "lucide-react";
 import { SettingsDialog } from "@/components/SettingsDialog";
 
 const navItems = [
   { title: "Home", id: "home", icon: Home },
   { title: "Projects", id: "projects", icon: Briefcase },
   { title: "Skills", id: "skills", icon: Code },
+  { title: "Blog", id: "blog", icon: FileText },
   { title: "Contact", id: "contact", icon: Mail },
 ];
 
 export function BottomNav() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState("home");
   const [isVisible, setIsVisible] = useState(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isHomePage = location.pathname === "/";
 
   // Reset hide timer
   const resetTimer = () => {
@@ -70,7 +75,19 @@ export function BottomNav() {
   }, []);
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (id === "blog") {
+      navigate("/blog");
+      return;
+    }
+
+    if (!isHomePage) {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const activeItem = navItems.find(item => item.id === activeSection);

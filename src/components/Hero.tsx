@@ -12,11 +12,13 @@ import { toast } from "sonner";
 import StarBorder from "@/components/ui/star-border";
 
 import { useThemeColor } from "@/hooks/use-theme-color";
+import { useProfile } from "@/hooks/useProfile";
 
 const Hero = () => {
   const [isEmailSheetOpen, setIsEmailSheetOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const email = "shantojoseph23@gmail.com";
+  const { profile, loading } = useProfile();
+  const email = profile?.email || "shantojoseph23@gmail.com";
   const { themeColor } = useThemeColor();
 
   const colorMap = {
@@ -62,13 +64,13 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-pixel mb-8 glow-text leading-relaxed">
-          Shanto Joseph
+          {profile?.full_name || "Shanto Joseph"}
         </h1>
         <p className="text-xl md:text-2xl text-muted-foreground mb-4 max-w-3xl mx-auto">
-          Full-Stack Developer
+          {profile?.role || "Full-Stack Developer"}
         </p>
         <p className="text-lg md:text-xl text-muted-foreground/80 mb-12 max-w-2xl mx-auto">
-          Turning ideas into interactive, dynamic, and scalable digital experiences.
+          {profile?.bio || "Turning ideas into interactive, dynamic, and scalable digital experiences."}
         </p>
 
         {/* CTA Buttons */}
@@ -94,22 +96,26 @@ const Hero = () => {
 
         {/* Social Links */}
         <div className="flex gap-6 justify-center mb-16">
-          <a
-            href="https://github.com/shanto-joseph"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-          >
-            <Github className="w-6 h-6" />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/shanto-joseph"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-          >
-            <Linkedin className="w-6 h-6" />
-          </a>
+          {profile?.github && (
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors duration-300"
+            >
+              <Github className="w-6 h-6" />
+            </a>
+          )}
+          {profile?.linkedin && (
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors duration-300"
+            >
+              <Linkedin className="w-6 h-6" />
+            </a>
+          )}
           <button
             onClick={() => setIsEmailSheetOpen(true)}
             className="text-muted-foreground hover:text-primary transition-colors duration-300"

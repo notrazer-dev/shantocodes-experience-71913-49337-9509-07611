@@ -1,3 +1,4 @@
+import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, ArrowLeft, Eye, Loader2 } from "lucide-react";
@@ -16,6 +17,12 @@ const Projects = () => {
   return (
     <>
       <div className="min-h-screen w-full overflow-x-hidden">
+        <SEO
+          title="Projects | Shanto Joseph Portfolio"
+          description="Explore the web development and AI projects built by Shanto Joseph. Featuring React, Python, and Full-Stack applications."
+          keywords="Shanto Joseph projects, Shanto Joseph portfolio, web development projects, react projects, AI projects"
+          type="website"
+        />
         {/* Desktop navigation - hidden on mobile/tablet */}
         <div className="hidden xl:block">
           <VerticalNav />
@@ -40,7 +47,7 @@ const Projects = () => {
               </Link>
 
               <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-                All Projects
+                Shanto Joseph's Portfolio
               </h1>
               <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
                 A complete collection of my work, from web applications to AI-powered solutions

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Home, Briefcase, Code, Mail } from "lucide-react";
+import { Home, Briefcase, Code, Mail, FileText } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +14,7 @@ const navItems = [
   { title: "Home", id: "home", icon: Home },
   { title: "Projects", id: "projects", icon: Briefcase },
   { title: "Skills", id: "skills", icon: Code },
+  { title: "Blog", id: "blog", icon: FileText },
   { title: "Contact", id: "contact", icon: Mail },
 ];
 
@@ -51,8 +52,17 @@ export function VerticalNav() {
   }, []);
 
   const scrollToSection = (id: string) => {
-    if (id === "home" && !isHomePage) {
+    if (id === "blog") {
+      navigate("/blog");
+      return;
+    }
+
+    if (!isHomePage) {
       navigate("/");
+      // Optional: You could use local storage or query params to handle scrolling after navigation
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     } else {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }

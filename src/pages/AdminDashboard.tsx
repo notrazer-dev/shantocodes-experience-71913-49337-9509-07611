@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Plus, FolderKanban, Code, Settings, BarChart3 } from "lucide-react";
+import { LogOut, Plus, FolderKanban, Code, Settings, BarChart3, FileText, User } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import ProjectsManager from "@/components/admin/ProjectsManager";
@@ -11,6 +11,10 @@ import SkillsManager from "@/components/admin/SkillsManager";
 import AnalyticsManager from "@/components/admin/AnalyticsManager";
 import { useProjects } from "@/hooks/useProjects";
 import { useSkills } from "@/hooks/useSkills";
+
+import { useBlog } from "@/hooks/useBlog";
+import BlogManager from "@/components/admin/BlogManager";
+import ProfileManager from "@/components/admin/ProfileManager";
 import { SettingsDialog } from "@/components/SettingsDialog";
 
 const AdminDashboard = () => {
@@ -21,7 +25,9 @@ const AdminDashboard = () => {
 
     // Fetch data for stats
     const { projects } = useProjects();
+
     const { skills } = useSkills();
+    const { posts } = useBlog();
 
     // Get active tab from URL or default to 'projects'
     const activeTab = searchParams.get('tab') || 'projects';
@@ -125,7 +131,7 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
@@ -168,6 +174,20 @@ const AdminDashboard = () => {
                             </p>
                         </CardContent>
                     </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Total Blog Posts
+                            </CardTitle>
+                            <FileText className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{posts.length}</div>
+                            <p className="text-xs text-muted-foreground">
+                                Manage your articles
+                            </p>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 {/* Content Tabs */}
@@ -175,6 +195,8 @@ const AdminDashboard = () => {
                     <TabsList>
                         <TabsTrigger value="projects">Projects</TabsTrigger>
                         <TabsTrigger value="skills">Skills</TabsTrigger>
+                        <TabsTrigger value="blog">Blog</TabsTrigger>
+                        <TabsTrigger value="profile">Profile</TabsTrigger>
                         <TabsTrigger value="analytics">Analytics</TabsTrigger>
                     </TabsList>
                     <TabsContent value="projects" className="space-y-4">
@@ -182,6 +204,12 @@ const AdminDashboard = () => {
                     </TabsContent>
                     <TabsContent value="skills" className="space-y-4">
                         <SkillsManager />
+                    </TabsContent>
+                    <TabsContent value="blog" className="space-y-4">
+                        <BlogManager />
+                    </TabsContent>
+                    <TabsContent value="profile" className="space-y-4">
+                        <ProfileManager />
                     </TabsContent>
                     <TabsContent value="analytics" className="space-y-4">
                         <AnalyticsManager />
